@@ -21,7 +21,7 @@ export default function Hero() {
         <div className="hero-content">
           <div className="hero-badge">
             <span className="pulse-dot"></span>
-            <span className="badge-text">Disponible para Nuevos Retos & Roles DevOps / Semi-Senior</span>
+            <span className="badge-text">Disponible para roles de Software Engineer & DevOps</span>
           </div>
 
           <h1 className="hero-title">

@@ -4,16 +4,16 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
 export const personalInfo = {
   name: "Sandra Loayza",
-  title: "Ingeniera de Software | DevOps & Automatización | IoT",
+  title: "Ingeniera de Software | DevOps & Backend | IoT",
   location: "Guayaquil, Ecuador",
-  education: "Ing. en Ciencias Computacionales — ESPOL (2024)",
+  education: "Ing. en Ciencias Computacionales — ESPOL",
   email: "sgloayza94@gmail.com",
   phone: "+593 99 443 6148",
   linkedin: "https://www.linkedin.com/in/sgloayza",
   github: "https://github.com/sgloayza",
   cvUrl: `${baseUrl}CVSandraLoayza_2026.pdf`,
   avatarUrl: avatarImg,
-  summary: `Ingeniera en Ciencias Computacionales graduada en ESPOL con amplia trayectoria en el diseño de arquitecturas de software escalables y automatización de infraestructura de misión crítica. Especialista en desarrollo Backend con Python (FastAPI), ecosistemas de datos en tiempo real (Kafka/Debezium CDC) y orquestación avanzada con Ansible. Experta en integrar soluciones IoT con hardware (gateways, Orange Pi, MQTT, LoRa) y pipelines CI/CD que optimizan ciclos de entrega y garantizan alta disponibilidad.`
+  summary: `Ingeniera de software graduada de la ESPOL. Actualmente trabajo en SIEMAV, donde me dedico al desarrollo backend con Python (FastAPI), automatización de servidores con Ansible y sistemas de telemetría con hardware en campo (gateways y Orange Pi). Me gusta trabajar donde el código se cruza con la infraestructura para hacer despliegues rápidos, reproducibles y estables en producción.`
 };
 
 export const metrics = [
