@@ -1,3 +1,7 @@
+import avatarImg from '../assets/sandra_loayza.jpg';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+
 export const personalInfo = {
   name: "Sandra Loayza",
   title: "Ingeniera de Software | DevOps & Automatización | IoT",
@@ -7,8 +11,8 @@ export const personalInfo = {
   phone: "+593 99 443 6148",
   linkedin: "https://www.linkedin.com/in/sgloayza",
   github: "https://github.com/sgloayza",
-  cvUrl: "/CVSandraLoayza_2026.pdf",
-  avatarUrl: "/sandra_loayza.jpg",
+  cvUrl: `${baseUrl}CVSandraLoayza_2026.pdf`,
+  avatarUrl: avatarImg,
   summary: `Ingeniera en Ciencias Computacionales graduada en ESPOL con amplia trayectoria en el diseño de arquitecturas de software escalables y automatización de infraestructura de misión crítica. Especialista en desarrollo Backend con Python (FastAPI), ecosistemas de datos en tiempo real (Kafka/Debezium CDC) y orquestación avanzada con Ansible. Experta en integrar soluciones IoT con hardware (gateways, Orange Pi, MQTT, LoRa) y pipelines CI/CD que optimizan ciclos de entrega y garantizan alta disponibilidad.`
 };
 

@@ -93,6 +93,9 @@ export default function Hero() {
                   src={personalInfo.avatarUrl} 
                   alt={personalInfo.name} 
                   className="avatar-image"
+                  onError={(e) => {
+                    e.currentTarget.src = `${import.meta.env.BASE_URL}sandra_loayza.jpg`;
+                  }}
                 />
               </div>
 
