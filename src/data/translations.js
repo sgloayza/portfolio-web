@@ -184,6 +184,12 @@ export const translations = {
           ramOptimal: 'Salud Óptima del Sistema',
           btnStress: '⚠️ Simular Fuga de Memoria RAM (Estrés)',
           btnRemediate: '🩺 Ejecutar Remediación (Ansible Self-Healing)',
+          btnMetricsStream: '📊 Explorar Endpoint /metrics (Prometheus Raw)',
+          btnMetricsHide: 'Ocultar Stream /metrics',
+          metricsTitle: 'Inspección de Métricas Reales de Prometheus (/metrics)',
+          metricsDesc: 'Payload en vivo generado por node_exporter en formato estándar OpenMetrics (text/plain). Cambia dinámicamente según el estado del hardware:',
+          metricsCopy: 'Copiar Métricas',
+          metricsCopied: '¡Copiado!',
           watchdogLogTitle: 'Registro en Vivo del Watchdog (/tmp/edge_watchdog.log)'
         },
         terminal: {
@@ -509,6 +515,12 @@ export const translations = {
           ramOptimal: 'Optimal Hardware Health',
           btnStress: '⚠️ Simulate RAM Memory Leak (Stress)',
           btnRemediate: '🩺 Execute Self-Healing (Ansible Remediation)',
+          btnMetricsStream: '📊 Inspect /metrics Endpoint (Prometheus Raw)',
+          btnMetricsHide: 'Hide /metrics Stream',
+          metricsTitle: 'Live Prometheus Metrics Inspection (/metrics)',
+          metricsDesc: 'Live payload produced by node_exporter in OpenMetrics standard format (text/plain). Dynamically recalculated based on hardware load:',
+          metricsCopy: 'Copy Metrics',
+          metricsCopied: 'Copied!',
           watchdogLogTitle: 'Live Watchdog Audit Log (/tmp/edge_watchdog.log)'
         },
         terminal: {

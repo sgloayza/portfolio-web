@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { 
   X, Database, Server, Cpu, ShieldCheck, AlertTriangle, 
   Terminal as TerminalIcon, Play, RefreshCw, Trash2, CheckCircle2,
-  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight
+  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight, Copy
 } from 'lucide-react';
 
 export default function EdgeClusterSimulator({ onClose }) {
@@ -132,6 +132,9 @@ export default function EdgeClusterSimulator({ onClose }) {
   // --- Observability & Watchdog Simulation State ---
   const [ramUsage, setRamUsage] = useState(38);
   const [cpuUsage, setCpuUsage] = useState(22);
+  const [showRawMetrics, setShowRawMetrics] = useState(false);
+  const [copiedMetrics, setCopiedMetrics] = useState(false);
+  const [remediationsCount, setRemediationsCount] = useState(0);
   const [watchdogLogs, setWatchdogLogs] = useState([
     `[${new Date().toLocaleTimeString()}] [HEALTHCHECK] RAM: 38% | CPU: 22% | Status: OPTIMAL | Node Exporter: ACTIVE (Port 9100)`
   ]);
@@ -146,8 +149,62 @@ export default function EdgeClusterSimulator({ onClose }) {
   const handleRemediate = () => {
     setRamUsage(34);
     setCpuUsage(18);
+    setRemediationsCount(prev => prev + 1);
     const newLog = `[${new Date().toLocaleTimeString()}] [REMEDIATION] Ansible self-healing executed: Purged 3 zombie containers. RAM normalized to 34%.`;
     setWatchdogLogs(prev => [newLog, ...prev]);
+  };
+
+  const getRawMetricsText = () => {
+    const memTotal = 4124344320;
+    const memAvail = Math.round(memTotal * (1 - ramUsage / 100));
+    const memFree = Math.round(memAvail * 0.68);
+    const cpuUser = (cpuUsage * 142.8).toFixed(2);
+    const load1 = ((cpuUsage / 100) * 2.75).toFixed(2);
+    const isOptimal = ramUsage < 80;
+
+    return `# HELP node_exporter_build_info A metric with a constant '1' value labeled by build info.
+# TYPE node_exporter_build_info gauge
+node_exporter_build_info{branch="HEAD",goversion="go1.21.5",version="1.7.0"} 1
+
+# HELP node_memory_MemTotal_bytes Memory information field MemTotal_bytes.
+# TYPE node_memory_MemTotal_bytes gauge
+node_memory_MemTotal_bytes ${memTotal}
+
+# HELP node_memory_MemAvailable_bytes Memory information field MemAvailable_bytes.
+# TYPE node_memory_MemAvailable_bytes gauge
+node_memory_MemAvailable_bytes ${memAvail}
+
+# HELP node_memory_MemFree_bytes Memory information field MemFree_bytes.
+# TYPE node_memory_MemFree_bytes gauge
+node_memory_MemFree_bytes ${memFree}
+
+# HELP node_cpu_seconds_total Seconds the CPUs spent in each mode.
+# TYPE node_cpu_seconds_total counter
+node_cpu_seconds_total{cpu="0",mode="idle"} 149230.12
+node_cpu_seconds_total{cpu="0",mode="system"} 3810.45
+node_cpu_seconds_total{cpu="0",mode="user"} ${cpuUser}
+
+# HELP node_load1 1m load average.
+# TYPE node_load1 gauge
+node_load1 ${load1}
+
+# HELP node_filesystem_free_bytes Filesystem free space in bytes.
+# TYPE node_filesystem_free_bytes gauge
+node_filesystem_free_bytes{device="/dev/mmcblk0p1",fstype="ext4",mountpoint="/"} 18342797312
+
+# HELP edge_watchdog_remediations_total Total self-healing actions triggered by edge watchdog.
+# TYPE edge_watchdog_remediations_total counter
+edge_watchdog_remediations_total ${remediationsCount}
+
+# HELP gateway_health_status Gateway operational status (1 = healthy, 0 = degraded/alert).
+# TYPE gateway_health_status gauge
+gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 0}`;
+  };
+
+  const handleCopyMetrics = () => {
+    navigator.clipboard.writeText(getRawMetricsText());
+    setCopiedMetrics(true);
+    setTimeout(() => setCopiedMetrics(false), 2200);
   };
 
   // --- Terminal Simulation State ---
@@ -562,17 +619,38 @@ export default function EdgeClusterSimulator({ onClose }) {
                   <ShieldCheck size={15} />
                   <span>{sim.observability.btnRemediate}</span>
                 </button>
-                <a 
-                  href="http://localhost:9100/metrics" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="btn btn-secondary btn-sm"
-                  style={{ textDecoration: 'none' }}
+                <button 
+                  className={`btn ${showRawMetrics ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+                  onClick={() => setShowRawMetrics(!showRawMetrics)}
+                  style={{ gap: '0.45rem' }}
                 >
                   <Zap size={14} />
-                  <span>Ver localhost:9100/metrics (Prometheus Local)</span>
-                </a>
+                  <span>{showRawMetrics ? sim.observability.btnMetricsHide : sim.observability.btnMetricsStream}</span>
+                </button>
               </div>
+
+              {/* Simulated Prometheus Raw /metrics Stream */}
+              {showRawMetrics && (
+                <div className="prometheus-raw-viewer glass-card">
+                  <div className="raw-viewer-header">
+                    <div className="raw-viewer-badge-group">
+                      <span className="raw-endpoint-tag">GET http://localhost:9100/metrics</span>
+                      <span className="raw-status-tag">HTTP/1.1 200 OK</span>
+                      <span className="raw-mime-tag">Content-Type: text/plain; version=0.0.4</span>
+                    </div>
+                    <button className="btn btn-outline btn-sm copy-metrics-btn" onClick={handleCopyMetrics}>
+                      {copiedMetrics ? <CheckCircle2 size={13} className="text-emerald" /> : <Copy size={13} />}
+                      <span>{copiedMetrics ? sim.observability.metricsCopied : sim.observability.metricsCopy}</span>
+                    </button>
+                  </div>
+                  <div className="raw-viewer-desc">
+                    <p>{sim.observability.metricsDesc}</p>
+                  </div>
+                  <pre className="raw-metrics-pre">
+                    <code>{getRawMetricsText()}</code>
+                  </pre>
+                </div>
+              )}
 
               {/* Live Watchdog Console */}
               <div className="watchdog-console glass-card">
