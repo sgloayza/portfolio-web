@@ -125,29 +125,33 @@ export const translations = {
       sectionTitleGrad: 'Impacto Real',
       sectionSubtitle: 'Proyectos de ingeniería diseñados para resolver cuellos de botella de infraestructura, streaming masivo de eventos y conectividad con hardware en campo.',
       highlightsLabel: 'Logros clave:',
-      btnArchitecture: 'Arquitectura',
+      btnArchitecture: 'Detalle y Arquitectura',
       btnGithub: 'GitHub',
-      modalOverview: 'Descripción de la Solución',
-      modalHighlights: 'Hitos y Contribuciones de Ingeniería',
-      modalImpact: 'Métrica de Impacto',
+      modalProblemTitle: 'La Problemática en Producción',
+      modalSolutionTitle: 'La Solución de Ingeniería Implementada',
+      modalHighlights: 'Hitos Técnicos y Aportes de Ingeniería',
+      modalImpact: 'Métrica e Impacto Comprobado',
       modalStack: 'Stack Tecnológico Utilizado',
       modalClose: 'Cerrar Detalle',
       modalViewGithub: 'Ver Código en GitHub',
       items: [
         {
           id: 'orchestration-installer',
-          title: 'Framework de Orquestación «v2 Installer»',
+          title: 'Framework de Orquestación «Edge Infrastructure Orchestrator»',
           category: 'DevOps / Infraestructura como Código',
           badge: 'Caso Insignia',
-          description: 'Diseño y desarrollo de una solución integral basada en Ansible y Python para la instalación, actualización y gestión masiva de infraestructura distribuida en gateways y estaciones base.',
+          cardDescription: 'Solución integral de Infraestructura como Código (IaC) y orquestación masiva para el aprovisionamiento, hardening y ciclo de vida de más de 115 gateways Edge distribuidos.',
+          description: 'Solución integral de Infraestructura como Código (IaC) y orquestación masiva para el aprovisionamiento, hardening y ciclo de vida de más de 115 gateways Edge distribuidos.',
+          problem: 'En flotas de gateways (Orange Pi / Linux) distribuidos geográficamente, los despliegues manuales consumían horas por dispositivo y generaban errores humanos. Además, cuando múltiples operadores o incidencias intentaban configurar un mismo equipo a la vez, se producían colisiones de despliegue (condiciones de carrera) que dejaban los nodos inoperables en campo.',
+          solution: 'Se diseñó un framework basado en Ansible Core y Python con inventario dinámico en tiempo real. La arquitectura implementa un control de concurrencia por exclusión mutua (Mutex) que detecta el estado real frente al deseado y bloquea automáticamente ejecuciones conflictivas simultáneas. Incluye hardening de contenedores Docker con cuotas estrictas de CPU/RAM, rotación de logs JSON para proteger las memorias flash y watchdog proactivo de autorrecuperación.',
           highlights: [
-            'Automatización completa del ciclo de vida de los gateways, reduciendo tiempos de despliegue de horas a minutos.',
-            'Desarrollo de plugins de inventario dinámico en Python que consultan la API de YouTrack en tiempo real.',
-            'Integración de gestión de secretos con Bitwarden y Ansible Vault.',
-            'Aprovisionamiento post-instalación de agentes de monitoreo Zabbix y métricas para Grafana/Prometheus.'
+            'Automatización completa del ciclo de vida de gateways, reduciendo tiempos de despliegue de horas a menos de 5 minutos.',
+            'Desarrollo de plugins de inventario dinámico en Python con patrón de doble estado (actual vs target) y bloqueo Mutex.',
+            'Hardening de contenedores en producción con cuotas de CPU/RAM y rotación de logs (50MB/5 ficheros) para evitar saturación de tarjetas SD.',
+            'Aprovisionamiento post-instalación de agentes de monitoreo Zabbix/Prometheus y métricas para Grafana.'
           ],
-          tags: ['Ansible', 'Python', 'YouTrack API', 'Bitwarden', 'Zabbix', 'Linux'],
-          metrics: '115+ gateways aprovisionados sin intervención manual',
+          tags: ['Ansible', 'Python', 'Docker Hardening', 'Edge Linux', 'Orange Pi', 'Event-Driven EDA'],
+          metrics: '115+ gateways aprovisionados sin intervención manual y 0 colisiones de despliegue',
           githubUrl: 'https://github.com/sgloayza/edge-infrastructure-orchestrator'
         },
         {
@@ -155,22 +159,28 @@ export const translations = {
           title: 'Pipeline de Datos Resiliente en Tiempo Real (CDC)',
           category: 'Data Streaming & Event-Driven',
           badge: 'Alta Disponibilidad',
-          description: 'Arquitectura de streaming y replicación continua de datos críticos desde bases de datos MongoDB hacia clústeres de respaldo utilizando Change Data Capture (CDC) con latencia cercana a cero.',
+          cardDescription: 'Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.',
+          description: 'Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.',
+          problem: 'Las bases de datos operativas de alta concurrencia sufrían degradación cuando se realizaban consultas analíticas pesadas. Críticamente, cualquier borrado accidental de registros operativos en caliente provocaba la pérdida irreversible de telemetría histórica necesaria para auditorías legales y cumplimiento normativo.',
+          solution: 'Se implementó una canalización desacoplada con Debezium y Apache Kafka leyendo directamente los Change Streams del oplog de MongoDB sin penalizar la base operativa. El conector hacia la base histórica fue configurado específicamente para persistir inserciones y actualizaciones descartando eliminaciones destructivas, garantizando un repositorio histórico inmutable con políticas de retención TTL de 365 días.',
           highlights: [
-            'Implementación de conectores Debezium sobre Apache Kafka y Kafka Connect.',
+            'Implementación de conectores Debezium sobre Apache Kafka y clúster Kafka Connect distribuido.',
             'Consumidor de alta concurrencia programado en Python para deserialización y validación de tipos BSON complejos.',
             'Mecanismo tolerante a fallos con lógica de reintentos exponenciales y consistencia eventual garantizada.',
             'Configuración de réplicas de MongoDB en producción para asegurar integridad en situaciones de contingencia.'
           ],
           tags: ['Kafka', 'Debezium CDC', 'MongoDB Replicas', 'Zookeeper', 'Python', 'FastAPI'],
-          metrics: 'Latencia sub-segundo en sincronización de eventos de producción'
+          metrics: 'Latencia sub-segundo en sincronización de eventos y 100% retención para auditorías'
         },
         {
           id: 'iot-telemetry-monitoring',
           title: 'Plataforma IoT de Telemetría y Monitoreo de Gateways',
           category: 'Sistemas Embebidos & Observabilidad',
           badge: 'Optimización Hardware',
-          description: 'Sistema centralizado de comunicación y telemetría para dispositivos en campo, combinando microservicios asíncronos, paneles en tiempo real y estabilización de hardware embebido.',
+          cardDescription: 'Sistema centralizado de comunicación y telemetría para dispositivos en campo, combinando microservicios asíncronos en FastAPI, colas MQTT y estabilización preventiva de memoria.',
+          description: 'Sistema centralizado de comunicación y telemetría para dispositivos en campo, combinando microservicios asíncronos en FastAPI, colas MQTT y estabilización preventiva de memoria.',
+          problem: 'Los gateways en campo (Orange Pi con 1GB-2GB de RAM) sufrían reinicios inesperados y congelamientos del sistema operativo debido a microfugas de memoria RAM y acumulación de sockets zombies en los microservicios de telemetría, obligando a reinicios manuales forzados en sitio.',
+          solution: 'Se desarrolló un microservicio asíncrono en FastAPI optimizado para bajo consumo de recursos que gestiona la telemetría vía MQTT y comunicación remota segura por SSH (Paramiko). Se diagnosticaron y erradicaron las fugas de memoria en los servicios embebidos y se implementó un script watchdog programado que monitorea proactivamente el consumo de RAM/disco, eliminando el 100% de las caídas inesperadas en hardware.',
           highlights: [
             'Microservicio en FastAPI con endpoints asíncronos para recepción y distribución de telemetría vía MQTT.',
             'Diagnóstico exhaustivo y resolución de fugas de memoria RAM en gateways (Orange Pi / Linux embebido), eliminando reinicios inesperados.',
@@ -178,7 +188,7 @@ export const translations = {
             'Interfaz interactiva para trazado de gráficos lineales de consumo en tiempo real y exportación de reportes dinámicos.'
           ],
           tags: ['FastAPI', 'MQTT', 'Orange Pi', 'Paramiko SSH', 'Grafana', 'React'],
-          metrics: '100% de reducción en caídas imprevistas por agotamiento de RAM'
+          metrics: '100% de reducción en caídas imprevistas por agotamiento de memoria RAM'
         }
       ]
     },
@@ -380,29 +390,33 @@ export const translations = {
       sectionTitleGrad: 'Real Impact',
       sectionSubtitle: 'Engineering projects designed to solve infrastructure bottlenecks, process high-throughput event streaming, and connect field hardware.',
       highlightsLabel: 'Key achievements:',
-      btnArchitecture: 'Architecture',
+      btnArchitecture: 'Architecture & Details',
       btnGithub: 'GitHub',
-      modalOverview: 'Solution Overview',
-      modalHighlights: 'Engineering Milestones & Contributions',
-      modalImpact: 'Impact Metric',
+      modalProblemTitle: 'Production Problem & Challenges',
+      modalSolutionTitle: 'Engineering Architecture & Solution',
+      modalHighlights: 'Key Technical Milestones & Contributions',
+      modalImpact: 'Proven Business & Technical Impact',
       modalStack: 'Technology Stack Utilized',
       modalClose: 'Close Details',
       modalViewGithub: 'View Code on GitHub',
       items: [
         {
           id: 'orchestration-installer',
-          title: 'Edge Orchestration Framework «v2 Installer»',
+          title: 'Edge Orchestration Framework «Edge Infrastructure Orchestrator»',
           category: 'DevOps / Infrastructure as Code',
           badge: 'Flagship Project',
-          description: 'Design and deployment of an end-to-end solution based on Ansible and Python for mass automated provisioning, patching, and lifecycle management of distributed gateways.',
+          cardDescription: 'End-to-end Infrastructure as Code (IaC) and event-driven orchestration framework automating provisioning, production hardening, and lifecycle management across 115+ edge gateways.',
+          description: 'End-to-end Infrastructure as Code (IaC) and event-driven orchestration framework automating provisioning, production hardening, and lifecycle management across 115+ edge gateways.',
+          problem: 'Managing fleets of geographically distributed Linux/Orange Pi edge gateways required manual, error-prone interventions lasting hours per node. Crucially, when multiple operators or automated triggers executed tasks against the same node concurrently, deployment collisions (race conditions) occurred, corrupting configurations and leaving field hardware in unrecoverable zombie states.',
+          solution: 'Engineered a declarative automation framework utilizing Ansible Core and Python with dynamic inventory discovery. Implemented a mutual exclusion (Mutex) concurrency control mechanism that compares observed live state against requested state, instantly aborting overlapping runs to guarantee zero race conditions. Hardened edge Docker nodes with bounded CPU/RAM limits, JSON log rotation policies to prevent flash memory burnout, and proactive health watchdogs.',
           highlights: [
-            'Complete gateway lifecycle automation, slashing deployment times from hours down to minutes.',
-            'Development of custom Python dynamic inventory plugins querying the YouTrack API in real-time.',
-            'Enterprise secrets management integration with Bitwarden and Ansible Vault.',
-            'Post-installation provisioning of Zabbix monitoring agents and Grafana/Prometheus metric exporters.'
+            'Full end-to-end gateway lifecycle automation, slashing deployment duration from hours down to under 5 minutes.',
+            'Custom Python dynamic inventory plugin featuring dual-state separation (actual vs target) and automated Mutex locking.',
+            'Production container hardening with strict CPU/RAM quotas and JSON log rotation (50MB/5 files) to prevent SD card exhaustion.',
+            'Automated post-provisioning of Zabbix/Prometheus telemetry agents and Grafana observability dashboards.'
           ],
-          tags: ['Ansible', 'Python', 'YouTrack API', 'Bitwarden', 'Zabbix', 'Linux'],
-          metrics: '115+ gateways provisioned without manual intervention',
+          tags: ['Ansible', 'Python', 'Docker Hardening', 'Edge Linux', 'Orange Pi', 'Event-Driven EDA'],
+          metrics: '115+ gateways provisioned without manual intervention and 0 deployment collisions',
           githubUrl: 'https://github.com/sgloayza/edge-infrastructure-orchestrator'
         },
         {
@@ -410,30 +424,36 @@ export const translations = {
           title: 'Resilient Real-Time Data Pipeline (CDC)',
           category: 'Data Streaming & Event-Driven',
           badge: 'High Availability',
-          description: 'Real-time streaming and replication architecture capturing critical telemetry from MongoDB to backup clusters using Change Data Capture (CDC) with near-zero latency.',
+          cardDescription: 'Continuous real-time Change Data Capture (CDC) streaming pipeline on Apache Kafka, replicating telemetry from MongoDB to audit clusters with sub-second latency.',
+          description: 'Continuous real-time Change Data Capture (CDC) streaming pipeline on Apache Kafka, replicating telemetry from MongoDB to audit clusters with sub-second latency.',
+          problem: 'High-throughput operational databases suffered severe performance degradation under analytical querying workloads. More critically, accidental or malicious deletions on live operational collections caused irreversible data loss, breaching statutory audit and compliance requirements.',
+          solution: 'Deployed a decoupled streaming architecture using Debezium and Apache Kafka to read directly from MongoDB oplog Change Streams without impacting transaction latency. The dedicated historical sink connector was configured to preserve all inserts and updates while dropping destructive deletions, providing an immutable audit repository backed by 365-day TTL retention policies.',
           highlights: [
-            'Debezium connectors implementation on Apache Kafka and Kafka Connect.',
+            'Debezium connectors deployment across distributed Apache Kafka and Kafka Connect clusters.',
             'High-concurrency Python consumer for deserializing and validating complex BSON documents.',
-            'Fault-tolerant architecture with exponential backoff retries and guaranteed eventual consistency.',
-            'Production MongoDB replica sets ensuring data integrity and long-term audit preservation.'
+            'Fault-tolerant streaming pipeline featuring exponential backoff retries and guaranteed eventual consistency.',
+            'High-availability MongoDB replica sets ensuring data durability and full disaster recovery compliance.'
           ],
           tags: ['Kafka', 'Debezium CDC', 'MongoDB Replicas', 'Zookeeper', 'Python', 'FastAPI'],
-          metrics: 'Sub-second latency in production event synchronization'
+          metrics: 'Sub-second latency in production event synchronization and 100% audit data retention'
         },
         {
           id: 'iot-telemetry-monitoring',
           title: 'IoT Gateway Telemetry & Monitoring Platform',
           category: 'Embedded Systems & Observability',
           badge: 'Hardware Optimization',
-          description: 'Centralized telemetry and communication platform for field edge devices, combining asynchronous microservices, live dashboards, and embedded hardware stabilization.',
+          cardDescription: 'Centralized telemetry, command-and-control, and diagnostic platform for field edge hardware, combining asynchronous FastAPI microservices, MQTT, and preventive RAM stabilization.',
+          description: 'Centralized telemetry, command-and-control, and diagnostic platform for field edge hardware, combining asynchronous FastAPI microservices, MQTT, and preventive RAM stabilization.',
+          problem: 'Field gateways (Orange Pi SBCs with 1GB–2GB RAM) experienced sporadic system freezes and unprompted kernel panics due to subtle memory leaks and zombie socket accumulation in legacy telemetry routines, forcing costly on-site manual power cycles.',
+          solution: 'Developed a lightweight asynchronous FastAPI service handling high-throughput MQTT telemetry and secure remote SSH tasking (Paramiko). Traced and patched memory leaks in embedded services and deployed automated watchdog daemons that continuously monitor RAM and disk thresholds, remediating degraded services before OS failure.',
           highlights: [
-            'FastAPI asynchronous microservice handling live telemetry reception and MQTT message distribution.',
-            'Root-cause diagnostics and resolution of critical RAM memory leaks in Orange Pi edge nodes, preventing sudden reboots.',
-            'Secure remote node fleet management through automated SSH scripting via Paramiko.',
-            'Interactive UI for real-time sensor plotting and dynamic Excel report generation.'
+            'FastAPI asynchronous microservice handling live telemetry ingestion and MQTT message distribution.',
+            'Root-cause diagnostic and permanent resolution of RAM memory leaks across Orange Pi edge nodes.',
+            'Fleet remote management with authenticated, parameterized SSH automation via Paramiko.',
+            'Interactive live sensor graphing UI and dynamic Excel audit report generation.'
           ],
           tags: ['FastAPI', 'MQTT', 'Orange Pi', 'Paramiko SSH', 'Grafana', 'React'],
-          metrics: '100% reduction in downtime caused by RAM exhaustion'
+          metrics: '100% reduction in unexpected hardware reboots due to RAM exhaustion'
         }
       ]
     },

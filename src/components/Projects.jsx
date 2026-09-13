@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { ExternalLink, Layers, CheckCircle2, X, Zap } from 'lucide-react';
+import { ExternalLink, Layers, CheckCircle2, X, Zap, AlertTriangle, Cpu } from 'lucide-react';
 
 export default function Projects() {
   const { t } = useLanguage();
@@ -32,7 +32,7 @@ export default function Projects() {
               </div>
 
               <h3 className="project-title">{project.title}</h3>
-              <p className="project-desc">{project.description}</p>
+              <p className="project-desc">{project.cardDescription || project.description}</p>
 
               {/* Highlights List */}
               <div className="project-highlights">
@@ -112,10 +112,32 @@ export default function Projects() {
               </div>
 
               <div className="modal-body">
-                <div className="modal-section">
-                  <h4>{t.projects.modalOverview}</h4>
-                  <p>{selectedProject.description}</p>
-                </div>
+                {/* Problem Section */}
+                {selectedProject.problem ? (
+                  <div className="modal-section modal-section-problem">
+                    <div className="modal-section-badge problem-badge">
+                      <AlertTriangle size={14} />
+                      <span>{t.projects.modalProblemTitle}</span>
+                    </div>
+                    <p>{selectedProject.problem}</p>
+                  </div>
+                ) : null}
+
+                {/* Solution Section */}
+                {selectedProject.solution ? (
+                  <div className="modal-section modal-section-solution">
+                    <div className="modal-section-badge solution-badge">
+                      <Cpu size={14} />
+                      <span>{t.projects.modalSolutionTitle}</span>
+                    </div>
+                    <p>{selectedProject.solution}</p>
+                  </div>
+                ) : (
+                  <div className="modal-section">
+                    <h4>{t.projects.modalOverview}</h4>
+                    <p>{selectedProject.description}</p>
+                  </div>
+                )}
 
                 <div className="modal-section">
                   <h4>{t.projects.modalHighlights}</h4>
