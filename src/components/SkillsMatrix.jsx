@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { skillCategories } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { Server, Terminal, Database, Cpu, CheckCircle } from 'lucide-react';
 
 export default function SkillsMatrix() {
-  const [activeTab, setActiveTab] = useState(skillCategories[0].id);
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('devops');
 
   const getTabIcon = (iconName) => {
     switch (iconName) {
@@ -20,25 +21,26 @@ export default function SkillsMatrix() {
     }
   };
 
-  const currentCategory = skillCategories.find((cat) => cat.id === activeTab) || skillCategories[0];
+  const categories = t.skills.categories;
+  const currentCategory = categories.find((cat) => cat.id === activeTab) || categories[0];
 
   return (
     <section id="skills" className="skills-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-tag">Competencias Técnicas</span>
+          <span className="section-tag">{t.skills.sectionTag}</span>
           <h2 className="section-title">
-            Especialización y <span className="text-gradient">Stack Tecnológico</span>
+            {t.skills.sectionTitle} <span className="text-gradient">{t.skills.sectionTitleGrad}</span>
           </h2>
           <p className="section-subtitle">
-            Un perfil híbrido que une el desarrollo backend asíncrono con la automatización de infraestructura y la comunicación con dispositivos de hardware en campo.
+            {t.skills.sectionSubtitle}
           </p>
         </div>
 
         {/* Category Tabs */}
         <div className="skills-tabs-wrapper">
           <div className="skills-tabs">
-            {skillCategories.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
@@ -59,7 +61,7 @@ export default function SkillsMatrix() {
               <span>{currentCategory.name}</span>
             </div>
             <span className="category-summary">
-              Dominio de herramientas de nivel producción y arquitectura
+              {t.skills.categorySummary}
             </span>
           </div>
 

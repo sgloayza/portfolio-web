@@ -1,18 +1,20 @@
 import React from 'react';
-import { experienceTimeline } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
 
 export default function Experience() {
+  const { t } = useLanguage();
+
   return (
     <section id="experience" className="experience-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-tag">Trayectoria Profesional</span>
+          <span className="section-tag">{t.experience.sectionTag}</span>
           <h2 className="section-title">
-            Experiencia y <span className="text-gradient">Liderazgo Técnico</span>
+            {t.experience.sectionTitle} <span className="text-gradient">{t.experience.sectionTitleGrad}</span>
           </h2>
           <p className="section-subtitle">
-            Crecimiento sostenido desde la mentoría académica y soporte de sistemas hasta el liderazgo en automatización e infraestructura distribuida.
+            {t.experience.sectionSubtitle}
           </p>
         </div>
 
@@ -20,7 +22,7 @@ export default function Experience() {
           <div className="timeline-line"></div>
 
           <div className="timeline-items">
-            {experienceTimeline.map((item, index) => (
+            {t.experience.items.map((item, index) => (
               <div key={index} className="timeline-item">
                 <div className="timeline-marker">
                   <Briefcase size={16} className="marker-icon" />

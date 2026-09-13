@@ -1,8 +1,10 @@
 import React from 'react';
-import { metrics } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { Clock, CheckCircle2, Server, Activity } from 'lucide-react';
 
 export default function MetricsBar() {
+  const { t } = useLanguage();
+
   const getIcon = (id) => {
     switch (id) {
       case 'hours':
@@ -22,7 +24,7 @@ export default function MetricsBar() {
     <section id="metrics" className="metrics-section">
       <div className="container">
         <div className="metrics-grid">
-          {metrics.map((item) => (
+          {t.metrics.items.map((item) => (
             <div key={item.id} className="metric-card glass-card">
               <div className="metric-header">
                 {getIcon(item.id)}

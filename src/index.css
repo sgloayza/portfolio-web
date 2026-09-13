@@ -427,6 +427,64 @@ button {
   border-top: 1px solid var(--border-subtle);
 }
 
+/* Language Toggle */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 4px 8px;
+  backdrop-filter: var(--glass-blur);
+  transition: var(--transition-fast);
+}
+
+.lang-toggle:hover {
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+.lang-icon {
+  color: var(--cyan-primary);
+  margin-right: 2px;
+}
+
+.lang-divider {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  letter-spacing: 0.05em;
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: var(--grad-cyan-violet);
+  color: #ffffff;
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.mobile-lang-wrapper {
+  padding-top: 0.75rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
 /* --------------------------------------------------------------------------
    HERO COMPONENT
    -------------------------------------------------------------------------- */

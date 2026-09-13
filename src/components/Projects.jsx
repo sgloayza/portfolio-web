@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
-import { featuredProjects } from '../data/portfolioData';
-import { ExternalLink, Layers, CheckCircle2, X, Sparkles, Server, Zap } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { ExternalLink, Layers, CheckCircle2, X, Zap } from 'lucide-react';
 
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const { t } = useLanguage();
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  const projectsList = t.projects.items;
+  const selectedProject = projectsList.find((p) => p.id === selectedProjectId);
 
   return (
     <section id="projects" className="projects-section">
       <div className="container">
         <div className="section-header">
-          <span className="section-tag">Casos de Estudio & Proyectos</span>
+          <span className="section-tag">{t.projects.sectionTag}</span>
           <h2 className="section-title">
-            Arquitectura e <span className="text-gradient">Impacto Real</span>
+            {t.projects.sectionTitle} <span className="text-gradient">{t.projects.sectionTitleGrad}</span>
           </h2>
           <p className="section-subtitle">
-            Proyectos de ingeniería diseñados para resolver cuellos de botella de infraestructura, streaming masivo de eventos y conectividad con hardware en campo.
+            {t.projects.sectionSubtitle}
           </p>
         </div>
 
         {/* Project Cards Grid */}
         <div className="projects-grid">
-          {featuredProjects.map((project) => (
+          {projectsList.map((project) => (
             <div key={project.id} className="project-card glass-card">
               <div className="project-card-header">
                 <span className="project-badge">{project.badge}</span>
@@ -32,7 +36,7 @@ export default function Projects() {
 
               {/* Highlights List */}
               <div className="project-highlights">
-                <span className="highlights-title">Logros clave:</span>
+                <span className="highlights-title">{t.projects.highlightsLabel}</span>
                 <ul className="highlights-list">
                   {project.highlights.slice(0, 3).map((item, idx) => (
                     <li key={idx} className="highlight-item">
@@ -62,11 +66,11 @@ export default function Projects() {
               <div className="project-card-actions" style={{ display: 'flex', gap: '8px' }}>
                 <button 
                   className="btn btn-secondary btn-sm"
-                  onClick={() => setSelectedProject(project)}
+                  onClick={() => setSelectedProjectId(project.id)}
                   style={{ flex: 1 }}
                 >
                   <Layers size={15} />
-                  <span>Arquitectura</span>
+                  <span>{t.projects.btnArchitecture}</span>
                 </button>
                 {project.githubUrl && (
                   <a
@@ -77,7 +81,7 @@ export default function Projects() {
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
                   >
                     <ExternalLink size={14} />
-                    <span>GitHub</span>
+                    <span>{t.projects.btnGithub}</span>
                   </a>
                 )}
               </div>
@@ -87,7 +91,7 @@ export default function Projects() {
 
         {/* Technical Architecture Modal */}
         {selectedProject && (
-          <div className="modal-overlay" onClick={() => setSelectedProject(null)}>
+          <div className="modal-overlay" onClick={() => setSelectedProjectId(null)}>
             <div 
               className="modal-container glass-card"
               onClick={(e) => e.stopPropagation()}
@@ -100,7 +104,7 @@ export default function Projects() {
                 </div>
                 <button 
                   className="modal-close-btn"
-                  onClick={() => setSelectedProject(null)}
+                  onClick={() => setSelectedProjectId(null)}
                   aria-label="Cerrar modal"
                 >
                   <X size={20} />
@@ -109,12 +113,12 @@ export default function Projects() {
 
               <div className="modal-body">
                 <div className="modal-section">
-                  <h4>Descripción de la Solución</h4>
+                  <h4>{t.projects.modalOverview}</h4>
                   <p>{selectedProject.description}</p>
                 </div>
 
                 <div className="modal-section">
-                  <h4>Hitos y Contribuciones de Ingeniería</h4>
+                  <h4>{t.projects.modalHighlights}</h4>
                   <ul className="modal-highlights-list">
                     {selectedProject.highlights.map((item, idx) => (
                       <li key={idx} className="modal-highlight-item">
@@ -126,7 +130,7 @@ export default function Projects() {
                 </div>
 
                 <div className="modal-section">
-                  <h4>Métrica de Impacto</h4>
+                  <h4>{t.projects.modalImpact}</h4>
                   <div className="modal-metric-card">
                     <Zap size={18} className="cyan" />
                     <strong>{selectedProject.metrics}</strong>
@@ -134,7 +138,7 @@ export default function Projects() {
                 </div>
 
                 <div className="modal-section">
-                  <h4>Stack Tecnológico Utilizado</h4>
+                  <h4>{t.projects.modalStack}</h4>
                   <div className="project-tags">
                     {selectedProject.tags.map((tag, idx) => (
                       <span key={idx} className="tech-tag active-tag">
@@ -155,14 +159,14 @@ export default function Projects() {
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
                   >
                     <ExternalLink size={16} />
-                    <span>Ver Código en GitHub</span>
+                    <span>{t.projects.modalViewGithub}</span>
                   </a>
                 )}
                 <button 
                   className="btn btn-secondary btn-sm"
-                  onClick={() => setSelectedProject(null)}
+                  onClick={() => setSelectedProjectId(null)}
                 >
-                  Cerrar Detalle
+                  {t.projects.modalClose}
                 </button>
               </div>
             </div>

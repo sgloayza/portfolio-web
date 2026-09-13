@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { personalInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   Mail, 
   Phone, 
@@ -8,11 +9,11 @@ import {
   Check, 
   FileDown, 
   Terminal, 
-  Heart,
   ArrowUp
 } from 'lucide-react';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = () => {
@@ -34,12 +35,12 @@ export default function Footer() {
           <div className="contact-banner-glow"></div>
           
           <div className="contact-header">
-            <span className="section-tag">Conectemos</span>
+            <span className="section-tag">{t.footer.sectionTag}</span>
             <h2 className="contact-title">
-              ¿Listo para optimizar tu infraestructura o acelerar tus despliegues?
+              {t.footer.contactTitle}
             </h2>
             <p className="contact-subtitle">
-              Estoy disponible para incorporarme a equipos dinámicos en roles de <strong>Ingeniería de Software / DevOps / Backend</strong> o proyectos de modernización de infraestructura.
+              {t.footer.contactSubtitle}
             </p>
           </div>
 
@@ -50,23 +51,23 @@ export default function Footer() {
                 <Mail size={22} />
               </div>
               <div className="contact-card-details">
-                <span className="contact-card-label">Correo Electrónico</span>
+                <span className="contact-card-label">{t.footer.emailLabel}</span>
                 <span className="contact-card-val">{personalInfo.email}</span>
               </div>
               <div className="contact-card-btns">
                 <button 
                   onClick={handleCopyEmail}
                   className={`btn-icon-action ${copied ? 'copied' : ''}`}
-                  title="Copiar correo al portapapeles"
+                  title="Copiar correo / Copy email"
                 >
                   {copied ? <Check size={16} /> : <Copy size={16} />}
-                  <span>{copied ? '¡Copiado!' : 'Copiar'}</span>
+                  <span>{copied ? t.footer.copiedBtn : t.footer.copyBtn}</span>
                 </button>
                 <a 
                   href={`mailto:${personalInfo.email}`} 
                   className="btn btn-primary btn-sm"
                 >
-                  Enviar
+                  {t.footer.sendBtn}
                 </a>
               </div>
             </div>
@@ -77,7 +78,7 @@ export default function Footer() {
                 <Phone size={22} />
               </div>
               <div className="contact-card-details">
-                <span className="contact-card-label">Teléfono / WhatsApp</span>
+                <span className="contact-card-label">{t.footer.phoneLabel}</span>
                 <span className="contact-card-val">{personalInfo.phone}</span>
               </div>
               <div className="contact-card-btns">
@@ -98,7 +99,7 @@ export default function Footer() {
                 <Linkedin size={22} />
               </div>
               <div className="contact-card-details">
-                <span className="contact-card-label">LinkedIn</span>
+                <span className="contact-card-label">{t.footer.linkedinLabel}</span>
                 <span className="contact-card-val">in/sgloayza</span>
               </div>
               <div className="contact-card-btns">
@@ -108,7 +109,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="btn btn-secondary btn-sm"
                 >
-                  Ver Perfil
+                  {t.footer.viewProfileBtn}
                 </a>
               </div>
             </div>
@@ -119,8 +120,8 @@ export default function Footer() {
                 <FileDown size={22} />
               </div>
               <div className="contact-card-details">
-                <span className="contact-card-label">Curriculum Vitae</span>
-                <span className="contact-card-val">Formato PDF Oficial</span>
+                <span className="contact-card-label">{t.footer.cvLabel}</span>
+                <span className="contact-card-val">{t.footer.cvFormat}</span>
               </div>
               <div className="contact-card-btns">
                 <a 
@@ -128,7 +129,7 @@ export default function Footer() {
                   download="CV_Sandra_Loayza_2026.pdf" 
                   className="btn btn-primary btn-sm"
                 >
-                  Descargar
+                  {t.footer.downloadBtn}
                 </a>
               </div>
             </div>
@@ -143,14 +144,14 @@ export default function Footer() {
           </div>
 
           <div className="footer-meta">
-            <span>Construido con React, Vite y Vanilla CSS</span>
+            <span>{t.footer.footerBuilt}</span>
           </div>
 
           <button 
             onClick={scrollToTop} 
             className="scroll-top-btn"
-            aria-label="Volver arriba"
-            title="Volver arriba"
+            aria-label="Volver arriba / Scroll to top"
+            title="Volver arriba / Scroll to top"
           >
             <ArrowUp size={18} />
           </button>
