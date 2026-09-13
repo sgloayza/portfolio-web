@@ -10,7 +10,7 @@ export default function EdgeClusterSimulator({ onClose }) {
   const { t } = useLanguage();
   const sim = t.projects.simulator;
 
-  const [activeTab, setActiveTab] = useState('cdc'); // cdc | mutex | observability | terminal
+  const [activeTab, setActiveTab] = useState('terminal'); // terminal | mutex | observability | cdc
 
   // --- CDC Simulation State ---
   const initialPrimaryDocs = [
@@ -288,11 +288,11 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
         {/* Tab Navigation */}
         <div className="simulator-tabs">
           <button 
-            className={`sim-tab-btn ${activeTab === 'cdc' ? 'active' : ''}`}
-            onClick={() => setActiveTab('cdc')}
+            className={`sim-tab-btn ${activeTab === 'terminal' ? 'active' : ''}`}
+            onClick={() => setActiveTab('terminal')}
           >
-            <Database size={16} />
-            <span>{sim.navTopology}</span>
+            <TerminalIcon size={16} />
+            <span>{sim.navTerminal}</span>
           </button>
           <button 
             className={`sim-tab-btn ${activeTab === 'mutex' ? 'active' : ''}`}
@@ -309,11 +309,11 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
             <span>{sim.navObservability}</span>
           </button>
           <button 
-            className={`sim-tab-btn ${activeTab === 'terminal' ? 'active' : ''}`}
-            onClick={() => setActiveTab('terminal')}
+            className={`sim-tab-btn ${activeTab === 'cdc' ? 'active' : ''}`}
+            onClick={() => setActiveTab('cdc')}
           >
-            <TerminalIcon size={16} />
-            <span>{sim.navTerminal}</span>
+            <Database size={16} />
+            <span>{sim.navTopology}</span>
           </button>
         </div>
 

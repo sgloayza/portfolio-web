@@ -222,39 +222,39 @@ export const translations = {
         },
         {
           id: 'resilient-cdc-pipeline',
-          title: 'Pipeline de Datos Resiliente en Tiempo Real (CDC)',
-          category: 'Data Streaming & Event-Driven',
-          badge: 'Alta Disponibilidad',
-          cardDescription: 'Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.',
-          description: 'Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.',
-          problem: 'Las bases de datos operativas de alta concurrencia sufrían degradación cuando se realizaban consultas analíticas pesadas. Críticamente, cualquier borrado accidental de registros operativos en caliente provocaba la pérdida irreversible de telemetría histórica necesaria para auditorías legales y cumplimiento normativo.',
-          solution: 'Se implementó una canalización desacoplada con Debezium y Apache Kafka leyendo directamente los Change Streams del oplog de MongoDB sin penalizar la base operativa. El conector hacia la base histórica fue configurado específicamente para persistir inserciones y actualizaciones descartando eliminaciones destructivas, garantizando un repositorio histórico inmutable con políticas de retención TTL de 365 días.',
+          title: 'Plataforma Backend & Streaming en Tiempo Real (FastAPI & Kafka)',
+          category: 'Desarrollo Backend & Streaming de Eventos',
+          badge: 'Alta Concurrencia',
+          cardDescription: 'Microservicio asíncrono en FastAPI y pipeline reactivo de eventos con Apache Kafka, conectando productores y consumidores en Python con MongoDB para persistencia transaccional y analítica.',
+          description: 'Microservicio asíncrono en FastAPI y pipeline reactivo de eventos con Apache Kafka, conectando productores y consumidores en Python con MongoDB para persistencia transaccional y analítica.',
+          problem: 'Las arquitecturas síncronas tradicionales colapsaban ante ráfagas masivas de peticiones de telemetría y bloqueaban la base de datos operativa al ejecutar consultas analíticas y auditorías concurrentes. Se requería un backend asíncrono capaz de procesar eventos en tiempo real con latencia sub-segundo y garantía de entrega sin pérdida de datos.',
+          solution: 'Se implementó un backend asíncrono desacoplado con FastAPI y esquemas estrictos con Pydantic. Las peticiones se ingieren en topics particionados de Apache Kafka, donde workers en Python procesan los flujos de eventos asíncronamente y los persisten en MongoDB con tolerancia a fallos, reintentos exponenciales y consistencia eventual.',
           highlights: [
-            'Implementación de conectores Debezium sobre Apache Kafka y clúster Kafka Connect distribuido.',
-            'Consumidor de alta concurrencia programado en Python para deserialización y validación de tipos BSON complejos.',
-            'Mecanismo tolerante a fallos con lógica de reintentos exponenciales y consistencia eventual garantizada.',
-            'Configuración de réplicas de MongoDB en producción para asegurar integridad en situaciones de contingencia.'
+            'Desarrollo de API REST asíncrona con FastAPI, validaciones tipadas en Pydantic y documentación OpenAPI/Swagger automática.',
+            'Pipeline de mensajería reactiva con Apache Kafka (productores y consumidores asíncronos en Python con aiokafka).',
+            'Persistencia resiliente en MongoDB con agregaciones optimizadas y políticas de retención histórica sin pérdida de registros.',
+            'Manejo robusto de excepciones con colas de reintentos (dead-letter queues) y monitoreo de salud del pipeline.'
           ],
-          tags: ['Kafka', 'Debezium CDC', 'MongoDB Replicas', 'Zookeeper', 'Python', 'FastAPI'],
-          metrics: 'Latencia sub-segundo en sincronización de eventos y 100% retención para auditorías'
+          tags: ['Python', 'FastAPI', 'Apache Kafka', 'Pydantic', 'MongoDB', 'Event-Driven EDA'],
+          metrics: '10,000+ eventos/seg procesados con latencia sub-segundo y 0 bloqueos en la base de datos'
         },
         {
           id: 'iot-telemetry-monitoring',
-          title: 'Plataforma IoT de Telemetría y Monitoreo de Gateways',
-          category: 'Sistemas Embebidos & Observabilidad',
-          badge: 'Optimización Hardware',
-          cardDescription: 'Sistema centralizado de comunicación y telemetría para dispositivos en campo, combinando microservicios asíncronos en FastAPI, colas MQTT y estabilización preventiva de memoria.',
-          description: 'Sistema centralizado de comunicación y telemetría para dispositivos en campo, combinando microservicios asíncronos en FastAPI, colas MQTT y estabilización preventiva de memoria.',
-          problem: 'Los gateways en campo (Orange Pi con 1GB-2GB de RAM) sufrían reinicios inesperados y congelamientos del sistema operativo debido a microfugas de memoria RAM y acumulación de sockets zombies en los microservicios de telemetría, obligando a reinicios manuales forzados en sitio.',
-          solution: 'Se desarrolló un microservicio asíncrono en FastAPI optimizado para bajo consumo de recursos que gestiona la telemetría vía MQTT y comunicación remota segura por SSH (Paramiko). Se diagnosticaron y erradicaron las fugas de memoria en los servicios embebidos y se implementó un script watchdog programado que monitorea proactivamente el consumo de RAM/disco, eliminando el 100% de las caídas inesperadas en hardware.',
+          title: 'Plataforma IoT de Telemetría y Gestión de Gateways',
+          category: 'Sistemas Embebidos & Redes IoT',
+          badge: 'Hardware & Edge',
+          cardDescription: 'Sistema centralizado de comunicación y telemetría para hardware embebido distribuido (Orange Pi / Linux Edge), combinando mensajería ligera MQTT, túneles remotos seguros con SSH (Paramiko) y estabilización preventiva de memoria.',
+          description: 'Sistema centralizado de comunicación y telemetría para hardware embebido distribuido (Orange Pi / Linux Edge), combinando mensajería ligera MQTT, túneles remotos seguros con SSH (Paramiko) y estabilización preventiva de memoria.',
+          problem: 'Los gateways en campo (Orange Pi con 1GB-2GB de RAM) en ubicaciones remotas con conectividad inestable sufrían bloqueos del sistema operativo por saturación de sockets y acumulación de microfugas de memoria en procesos huérfanos, exigiendo traslados para reinicios manuales en sitio.',
+          solution: 'Se diseñó un cliente de telemetría resiliente con reconexión exponencial sobre protocolo MQTT (Eclipse Mosquitto) y gestión remota parametrizada mediante SSH seguro con Paramiko. Se complementa con rutinas de depuración de procesos zombies que estabilizan la memoria RAM en nodos desatendidos.',
           highlights: [
-            'Microservicio en FastAPI con endpoints asíncronos para recepción y distribución de telemetría vía MQTT.',
-            'Diagnóstico exhaustivo y resolución de fugas de memoria RAM en gateways (Orange Pi / Linux embebido), eliminando reinicios inesperados.',
-            'Gestión remota de dispositivos mediante comandos parametrizados por SSH utilizando Paramiko.',
-            'Interfaz interactiva para trazado de gráficos lineales de consumo en tiempo real y exportación de reportes dinámicos.'
+            'Comunicación ligera bidireccional sobre protocolo MQTT optimizada para anchos de banda reducidos e intermitentes.',
+            'Automatización y administración remota segura de flotas de hardware desatendido mediante SSH y Paramiko.',
+            'Diagnóstico exhaustivo y resolución de fugas de memoria RAM en gateways Orange Pi (Linux embebido).',
+            'Algoritmos de reconexión adaptativa y buffering local en memoria ante pérdidas de red.'
           ],
-          tags: ['FastAPI', 'MQTT', 'Orange Pi', 'Paramiko SSH', 'Grafana', 'React'],
-          metrics: '100% de reducción en caídas imprevistas por agotamiento de memoria RAM'
+          tags: ['MQTT / Mosquitto', 'Orange Pi', 'Python', 'Paramiko SSH', 'Linux Edge', 'Sistemas Embebidos'],
+          metrics: '100% de reducción en bloqueos físicos y caídas por agotamiento de memoria RAM'
         }
       ]
     },
@@ -553,38 +553,38 @@ export const translations = {
         },
         {
           id: 'resilient-cdc-pipeline',
-          title: 'Resilient Real-Time Data Pipeline (CDC)',
-          category: 'Data Streaming & Event-Driven',
-          badge: 'High Availability',
-          cardDescription: 'Continuous real-time Change Data Capture (CDC) streaming pipeline on Apache Kafka, replicating telemetry from MongoDB to audit clusters with sub-second latency.',
-          description: 'Continuous real-time Change Data Capture (CDC) streaming pipeline on Apache Kafka, replicating telemetry from MongoDB to audit clusters with sub-second latency.',
-          problem: 'High-throughput operational databases suffered severe performance degradation under analytical querying workloads. More critically, accidental or malicious deletions on live operational collections caused irreversible data loss, breaching statutory audit and compliance requirements.',
-          solution: 'Deployed a decoupled streaming architecture using Debezium and Apache Kafka to read directly from MongoDB oplog Change Streams without impacting transaction latency. The dedicated historical sink connector was configured to preserve all inserts and updates while dropping destructive deletions, providing an immutable audit repository backed by 365-day TTL retention policies.',
+          title: 'Event-Driven Streaming & Backend Platform (FastAPI & Kafka)',
+          category: 'Backend Development & Event Streaming',
+          badge: 'High Concurrency',
+          cardDescription: 'Asynchronous microservices architecture built with FastAPI and reactive event streaming via Apache Kafka, connecting Python producers and consumers with MongoDB for transactional and analytical persistence.',
+          description: 'Asynchronous microservices architecture built with FastAPI and reactive event streaming via Apache Kafka, connecting Python producers and consumers with MongoDB for transactional and analytical persistence.',
+          problem: 'Traditional synchronous architectures suffered bottlenecks under heavy ingestion bursts and degraded the operational database when processing concurrent analytical queries. An asynchronous event-driven backend was required to ingest and stream events with sub-second latency and zero data loss.',
+          solution: 'Engineered a modular asynchronous backend with FastAPI and strict Pydantic validation schemas. Request ingestion is decoupled using Apache Kafka topics, where Python background consumers validate, transform, and persist streams into MongoDB with exponential retry strategies and dead-letter queues.',
           highlights: [
-            'Debezium connectors deployment across distributed Apache Kafka and Kafka Connect clusters.',
-            'High-concurrency Python consumer for deserializing and validating complex BSON documents.',
-            'Fault-tolerant streaming pipeline featuring exponential backoff retries and guaranteed eventual consistency.',
-            'High-availability MongoDB replica sets ensuring data durability and full disaster recovery compliance.'
+            'High-throughput asynchronous REST API built with FastAPI, strict Pydantic validation, and interactive OpenAPI/Swagger docs.',
+            'Reactive messaging pipeline powered by Apache Kafka using asynchronous Python producers/consumers (aiokafka).',
+            'Resilient MongoDB integration featuring optimized aggregation pipelines and historic retention policies.',
+            'Fault-tolerant error handling with dead-letter queues (DLQ) and comprehensive pipeline health checks.'
           ],
-          tags: ['Kafka', 'Debezium CDC', 'MongoDB Replicas', 'Zookeeper', 'Python', 'FastAPI'],
-          metrics: 'Sub-second latency in production event synchronization and 100% audit data retention'
+          tags: ['Python', 'FastAPI', 'Apache Kafka', 'Pydantic', 'MongoDB', 'Event-Driven EDA'],
+          metrics: '10,000+ events/sec processed with sub-second latency and 0 DB blocking'
         },
         {
           id: 'iot-telemetry-monitoring',
-          title: 'IoT Gateway Telemetry & Monitoring Platform',
-          category: 'Embedded Systems & Observability',
-          badge: 'Hardware Optimization',
-          cardDescription: 'Centralized telemetry, command-and-control, and diagnostic platform for field edge hardware, combining asynchronous FastAPI microservices, MQTT, and preventive RAM stabilization.',
-          description: 'Centralized telemetry, command-and-control, and diagnostic platform for field edge hardware, combining asynchronous FastAPI microservices, MQTT, and preventive RAM stabilization.',
-          problem: 'Field gateways (Orange Pi SBCs with 1GB–2GB RAM) experienced sporadic system freezes and unprompted kernel panics due to subtle memory leaks and zombie socket accumulation in legacy telemetry routines, forcing costly on-site manual power cycles.',
-          solution: 'Developed a lightweight asynchronous FastAPI service handling high-throughput MQTT telemetry and secure remote SSH tasking (Paramiko). Traced and patched memory leaks in embedded services and deployed automated watchdog daemons that continuously monitor RAM and disk thresholds, remediating degraded services before OS failure.',
+          title: 'IoT Gateway Telemetry & Fleet Management Platform',
+          category: 'Embedded Systems & IoT Networking',
+          badge: 'Hardware & Edge',
+          cardDescription: 'Centralized telemetry, command-and-control, and diagnostic platform for distributed embedded hardware (Orange Pi / Linux Edge), combining lightweight MQTT messaging, secure SSH automation (Paramiko), and preventive RAM stabilization.',
+          description: 'Centralized telemetry, command-and-control, and diagnostic platform for distributed embedded hardware (Orange Pi / Linux Edge), combining lightweight MQTT messaging, secure SSH automation (Paramiko), and preventive RAM stabilization.',
+          problem: 'Field gateways (Orange Pi SBCs with 1GB–2GB RAM) in remote environments with unstable connectivity experienced system freezes due to socket exhaustion and unmanaged memory leaks in legacy processes, forcing costly on-site manual power cycles.',
+          solution: 'Designed a resilient telemetry client with exponential reconnection over MQTT (Eclipse Mosquitto) and parameterized remote fleet execution via secure SSH using Paramiko. Complemented with background watchdog daemons that terminate orphan zombie processes and maintain RAM stability.',
           highlights: [
-            'FastAPI asynchronous microservice handling live telemetry ingestion and MQTT message distribution.',
+            'Lightweight bidirectional communication over MQTT protocol optimized for low and unstable bandwidth.',
+            'Remote fleet management with authenticated, parameterized SSH automation via Paramiko.',
             'Root-cause diagnostic and permanent resolution of RAM memory leaks across Orange Pi edge nodes.',
-            'Fleet remote management with authenticated, parameterized SSH automation via Paramiko.',
-            'Interactive live sensor graphing UI and dynamic Excel audit report generation.'
+            'Adaptive reconnection algorithms and local buffer queue handling network disconnects.'
           ],
-          tags: ['FastAPI', 'MQTT', 'Orange Pi', 'Paramiko SSH', 'Grafana', 'React'],
+          tags: ['MQTT / Mosquitto', 'Orange Pi', 'Python', 'Paramiko SSH', 'Linux Edge', 'Embedded Systems'],
           metrics: '100% reduction in unexpected hardware reboots due to RAM exhaustion'
         }
       ]

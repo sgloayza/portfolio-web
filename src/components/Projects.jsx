@@ -27,7 +27,7 @@ export default function Projects() {
         {/* Project Cards Grid */}
         <div className="projects-grid">
           {projectsList.map((project) => {
-            const hasSimulator = project.id === 'orchestration-installer' || project.id === 'resilient-cdc-pipeline';
+            const hasSimulator = project.id === 'orchestration-installer';
             return (
               <div key={project.id} className="project-card glass-card">
                 <div className="project-card-header">
@@ -189,7 +189,7 @@ export default function Projects() {
               </div>
 
               <div className="modal-footer" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                {(selectedProject.id === 'orchestration-installer' || selectedProject.id === 'resilient-cdc-pipeline') && (
+                {selectedProject.id === 'orchestration-installer' && (
                   <button
                     className="btn btn-primary btn-sm"
                     onClick={() => {
