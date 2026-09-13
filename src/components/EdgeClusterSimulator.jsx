@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 import { 
   X, Database, Server, Cpu, ShieldCheck, AlertTriangle, 
   Terminal as TerminalIcon, Play, RefreshCw, Trash2, CheckCircle2,
-  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight, Copy, Compass, Info
+  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight, Copy, Compass, Info,
+  ArrowLeft, ExternalLink
 } from 'lucide-react';
 
-export default function EdgeClusterSimulator({ onClose }) {
+export default function EdgeClusterSimulator({ onBack }) {
   const { t } = useLanguage();
   const sim = t.projects.simulator;
 
@@ -265,68 +267,99 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div 
-        className="simulator-modal glass-card"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="simulator-header">
-          <div className="simulator-title-group">
-            <span className="project-badge simulator-badge">
-              <Zap size={13} className="inline-icon" />
-              {sim.badge}
-            </span>
-            <h2 className="simulator-title">{sim.title}</h2>
-            <p className="simulator-subtitle">{t.projects.simulator.subtitle || sim.cdc.subtitle}</p>
+    <div className="simulator-page">
+      {/* Dedicated Enterprise Top Header */}
+      <header className="simulator-page-header">
+        <div className="container sim-header-container">
+          <div className="sim-header-left">
+            <button onClick={onBack} className="btn btn-outline btn-sm sim-back-btn">
+              <ArrowLeft size={16} />
+              <span>{sim.btnBackPortfolio}</span>
+            </button>
+            <div className="sim-header-divider"></div>
+            <div className="sim-header-brand">
+              <span className="live-status-pill">
+                <span className="live-status-dot animate-pulse"></span>
+                <span>NOC LIVE CONTROL ROOM</span>
+              </span>
+              <h1 className="sim-page-title">{sim.title}</h1>
+            </div>
           </div>
-          <button className="modal-close-btn" onClick={onClose} aria-label={sim.close}>
-            <X size={22} />
-          </button>
-        </div>
 
-        {/* Tab Navigation */}
-        <div className="simulator-tabs">
-          <button 
-            className={`sim-tab-btn ${activeTab === 'terminal' ? 'active' : ''}`}
-            onClick={() => setActiveTab('terminal')}
-          >
-            <TerminalIcon size={16} />
-            <span>{sim.navTerminal}</span>
-          </button>
-          <button 
-            className={`sim-tab-btn ${activeTab === 'mutex' ? 'active' : ''}`}
-            onClick={() => setActiveTab('mutex')}
-          >
-            <Lock size={16} />
-            <span>{sim.navMutex}</span>
-          </button>
-          <button 
-            className={`sim-tab-btn ${activeTab === 'observability' ? 'active' : ''}`}
-            onClick={() => setActiveTab('observability')}
-          >
-            <Activity size={16} />
-            <span>{sim.navObservability}</span>
-          </button>
-          <button 
-            className={`sim-tab-btn ${activeTab === 'cdc' ? 'active' : ''}`}
-            onClick={() => setActiveTab('cdc')}
-          >
-            <Database size={16} />
-            <span>{sim.navTopology}</span>
-          </button>
-        </div>
-
-        {/* Guided Quick Tour Banner */}
-        <div className="sim-guide-banner">
-          <div className="guide-banner-inner">
-            <Compass size={16} className="text-cyan animate-pulse" />
-            <span>{sim.guideBanner}</span>
+          <div className="sim-header-right">
+            <LanguageToggle />
+            <a 
+              href="https://github.com/sgloayza/edge-infrastructure-orchestrator" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-secondary btn-sm"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+            >
+              <ExternalLink size={14} />
+              <span>{sim.viewGithubRepo}</span>
+            </a>
           </div>
         </div>
+      </header>
 
-        {/* Tab Content */}
-        <div className="simulator-body">
+      {/* Main Simulator Workspace Container */}
+      <main className="simulator-page-workspace">
+        <div className="container simulator-workspace-container">
+          {/* Quick Mission Guide Card */}
+          <div className="sim-main-mission-card glass-card">
+            <Compass size={22} className="text-cyan flex-shrink-0" />
+            <div className="mission-content">
+              <span className="mission-tag">MODO DEMOSTRACIÓN DE ARQUITECTURA EN VIVO</span>
+              <p className="mission-text">{sim[activeTab].scenarioDesc}</p>
+            </div>
+          </div>
+
+          {/* Navigation Tabs Bar */}
+          <div className="simulator-page-tabs-bar">
+            <button 
+              className={`sim-page-tab ${activeTab === 'terminal' ? 'active' : ''}`}
+              onClick={() => setActiveTab('terminal')}
+            >
+              <TerminalIcon size={18} />
+              <div className="tab-label-group">
+                <span className="tab-kicker">ESCENARIO 1</span>
+                <span className="tab-name">{sim.navTerminal}</span>
+              </div>
+            </button>
+            <button 
+              className={`sim-page-tab ${activeTab === 'mutex' ? 'active' : ''}`}
+              onClick={() => setActiveTab('mutex')}
+            >
+              <Lock size={18} />
+              <div className="tab-label-group">
+                <span className="tab-kicker">ESCENARIO 2</span>
+                <span className="tab-name">{sim.navMutex}</span>
+              </div>
+            </button>
+            <button 
+              className={`sim-page-tab ${activeTab === 'observability' ? 'active' : ''}`}
+              onClick={() => setActiveTab('observability')}
+            >
+              <Activity size={18} />
+              <div className="tab-label-group">
+                <span className="tab-kicker">ESCENARIO 3</span>
+                <span className="tab-name">{sim.navObservability}</span>
+              </div>
+            </button>
+            <button 
+              className={`sim-page-tab ${activeTab === 'cdc' ? 'active' : ''}`}
+              onClick={() => setActiveTab('cdc')}
+            >
+              <Database size={18} />
+              <div className="tab-label-group">
+                <span className="tab-kicker">ESCENARIO 4</span>
+                <span className="tab-name">{sim.navTopology}</span>
+              </div>
+            </button>
+          </div>
+
+          {/* Tab Body Content with Full Natural Spacing */}
+          <div className="simulator-tab-content-pane glass-card">
           {/* TAB 1: CDC & KAFKA */}
           {activeTab === 'cdc' && (
             <div className="sim-pane-cdc">
@@ -763,18 +796,21 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
               </div>
             </div>
           )}
+          </div>
         </div>
+      </main>
 
-        {/* Footer */}
-        <div className="simulator-footer">
+      {/* Simulator Footer */}
+      <footer className="simulator-page-footer">
+        <div className="container sim-page-footer-container">
           <span className="sim-footer-note">
-            💡 Demostración interactiva en tiempo real. Código fuente disponible en GitHub.
+            💡 Demostración interactiva de arquitectura y automatización en tiempo real para Edge Infrastructure Orchestrator.
           </span>
-          <button className="btn btn-secondary btn-sm" onClick={onClose}>
-            {sim.close}
+          <button onClick={onBack} className="btn btn-secondary btn-sm">
+            {sim.btnBackPortfolio}
           </button>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }

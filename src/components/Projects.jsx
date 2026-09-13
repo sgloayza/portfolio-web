@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { ExternalLink, Layers, CheckCircle2, X, Zap, AlertTriangle, Cpu, Play } from 'lucide-react';
-import EdgeClusterSimulator from './EdgeClusterSimulator';
-
 export default function Projects() {
   const { t } = useLanguage();
   const [selectedProjectId, setSelectedProjectId] = useState(null);
-  const [showSimulator, setShowSimulator] = useState(false);
 
   const projectsList = t.projects.items;
   const selectedProject = projectsList.find((p) => p.id === selectedProjectId);
@@ -71,7 +68,7 @@ export default function Projects() {
                   {hasSimulator && (
                     <button
                       className="btn btn-primary btn-sm simulator-trigger-btn"
-                      onClick={() => setShowSimulator(true)}
+                      onClick={() => { window.location.hash = '#/simulator'; }}
                       style={{ width: '100%', justifyContent: 'center' }}
                     >
                       <Play size={14} />
@@ -194,7 +191,7 @@ export default function Projects() {
                     className="btn btn-primary btn-sm"
                     onClick={() => {
                       setSelectedProjectId(null);
-                      setShowSimulator(true);
+                      window.location.hash = '#/simulator';
                     }}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                   >
@@ -223,11 +220,6 @@ export default function Projects() {
               </div>
             </div>
           </div>
-        )}
-
-        {/* Live Interactive Cluster Simulator Modal */}
-        {showSimulator && (
-          <EdgeClusterSimulator onClose={() => setShowSimulator(false)} />
         )}
 
       </div>
