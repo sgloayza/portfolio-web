@@ -1685,6 +1685,95 @@ button {
   border-color: rgba(6, 182, 212, 0.3);
 }
 
+/* Guided Tour Banner */
+.sim-guide-banner {
+  background: rgba(6, 182, 212, 0.06);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.18);
+  padding: 0.65rem 1.8rem;
+}
+
+.guide-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--cyan-light);
+  font-weight: 500;
+}
+
+/* Mission Goal Card */
+.sim-mission-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.95rem 1.25rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-left: 4px solid var(--cyan-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.mission-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #38bdf8;
+  margin-bottom: 0.25rem;
+}
+
+.sim-mission-card p {
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Dynamic Real-Time Hint Pills */
+.hint-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  margin-bottom: 1.1rem;
+  line-height: 1.4;
+}
+
+.hint-pill-cyan {
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #a5f3fc;
+}
+
+.hint-pill-danger {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fecaca;
+}
+
+.hint-pill-warning {
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fef3c7;
+}
+
+/* Step Action Buttons */
+.btn-step-action {
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-step-action:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
+
 /* Simulator Body */
 .simulator-body {
   padding: 1.5rem 1.8rem;

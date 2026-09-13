@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { 
   X, Database, Server, Cpu, ShieldCheck, AlertTriangle, 
   Terminal as TerminalIcon, Play, RefreshCw, Trash2, CheckCircle2,
-  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight, Copy
+  Lock, Unlock, Activity, Zap, HardDrive, ArrowRight, Copy, Compass, Info
 } from 'lucide-react';
 
 export default function EdgeClusterSimulator({ onClose }) {
@@ -317,20 +317,37 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
           </button>
         </div>
 
+        {/* Guided Quick Tour Banner */}
+        <div className="sim-guide-banner">
+          <div className="guide-banner-inner">
+            <Compass size={16} className="text-cyan animate-pulse" />
+            <span>{sim.guideBanner}</span>
+          </div>
+        </div>
+
         {/* Tab Content */}
         <div className="simulator-body">
           {/* TAB 1: CDC & KAFKA */}
           {activeTab === 'cdc' && (
             <div className="sim-pane-cdc">
-              <div className="sim-section-desc">
-                <h4>{sim.cdc.title}</h4>
-                <p>{sim.cdc.subtitle}</p>
+              <div className="sim-mission-card">
+                <Compass size={20} className="text-cyan flex-shrink-0" />
+                <div>
+                  <span className="mission-tag">ESCENARIO 4 / 4 · STREAMING CDC & KAFKA</span>
+                  <p>{sim.cdc.scenarioDesc}</p>
+                </div>
               </div>
+
+              {isPurged && (
+                <div className="hint-pill hint-pill-warning animate-pulse">
+                  💥 <strong>¡Base Primaria Vaciada (0 Docs)!</strong> Observa a la derecha: la base de auditoría preservó el 100% de la telemetría (Zero Data Loss).
+                </div>
+              )}
 
               {/* Controls */}
               <div className="sim-controls-bar">
                 <button 
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm btn-step-action"
                   onClick={handleInsertTelemetry}
                   disabled={isStreaming}
                 >
@@ -339,7 +356,7 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
                 </button>
 
                 <button 
-                  className="btn btn-danger-sm btn-sm"
+                  className="btn btn-danger-sm btn-sm btn-step-action"
                   onClick={handleDeleteMany}
                   disabled={primaryDocs.length === 0}
                 >
@@ -355,6 +372,7 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
                   <span>{sim.cdc.btnReset}</span>
                 </button>
               </div>
+
 
               {/* Last Event Banner */}
               {lastCdcEvent && (
@@ -465,10 +483,19 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
           {/* TAB 2: MUTEX CONCURRENCY CONTROL */}
           {activeTab === 'mutex' && (
             <div className="sim-pane-mutex">
-              <div className="sim-section-desc">
-                <h4>{sim.mutex.title}</h4>
-                <p>{sim.mutex.subtitle}</p>
+              <div className="sim-mission-card">
+                <Compass size={20} className="text-cyan flex-shrink-0" />
+                <div>
+                  <span className="mission-tag">ESCENARIO 2 / 4 · PREVENCIÓN DE COLISIONES MUTEX</span>
+                  <p>{sim.mutex.scenarioDesc}</p>
+                </div>
               </div>
+
+              {isTask1Running && (
+                <div className="hint-pill hint-pill-cyan animate-pulse">
+                  👉 <strong>¡Paso 1 en curso!</strong> Presiona ahora el botón <strong>2️⃣ Paso 2</strong> antes de que termine para observar cómo Ansible rechaza la colisión.
+                </div>
+              )}
 
               <div className="mutex-demo-grid">
                 {/* Gateway Card */}
@@ -553,10 +580,19 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
           {/* TAB 3: PROMETHEUS & WATCHDOG */}
           {activeTab === 'observability' && (
             <div className="sim-pane-observability">
-              <div className="sim-section-desc">
-                <h4>{sim.observability.title}</h4>
-                <p>{sim.observability.subtitle}</p>
+              <div className="sim-mission-card">
+                <Compass size={20} className="text-cyan flex-shrink-0" />
+                <div>
+                  <span className="mission-tag">ESCENARIO 3 / 4 · HARDWARE & WATCHDOG</span>
+                  <p>{sim.observability.scenarioDesc}</p>
+                </div>
               </div>
+
+              {ramUsage > 80 && (
+                <div className="hint-pill hint-pill-danger animate-pulse">
+                  ⚠️ <strong>¡Alerta Crítica!</strong> Memoria saturada al 89%. Haz clic ahora en el botón <strong>2️⃣ Paso 2</strong> para ejecutar la auto-remediación con Ansible.
+                </div>
+              )}
 
               {/* Gauges Grid */}
               <div className="gauges-grid">
@@ -674,14 +710,17 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
           {/* TAB 4: ANSIBLE TERMINAL */}
           {activeTab === 'terminal' && (
             <div className="sim-pane-terminal">
-              <div className="sim-section-desc">
-                <h4>{sim.terminal.title}</h4>
-                <p>{sim.terminal.subtitle}</p>
+              <div className="sim-mission-card">
+                <Compass size={20} className="text-cyan flex-shrink-0" />
+                <div>
+                  <span className="mission-tag">ESCENARIO 1 / 4 · AUTOMATIZACIÓN ANSIBLE IAC</span>
+                  <p>{sim.terminal.scenarioDesc}</p>
+                </div>
               </div>
 
               <div className="sim-controls-bar">
                 <button 
-                  className="btn btn-primary btn-sm" 
+                  className="btn btn-primary btn-sm btn-step-action" 
                   onClick={runVerifyScript}
                   disabled={isTerminalRunning}
                 >
@@ -690,7 +729,7 @@ gateway_health_status{host="gw-edge-01",cluster="production"} ${isOptimal ? 1 : 
                 </button>
 
                 <button 
-                  className="btn btn-secondary btn-sm" 
+                  className="btn btn-secondary btn-sm btn-step-action" 
                   onClick={runAnsiblePlaybook}
                   disabled={isTerminalRunning}
                 >
