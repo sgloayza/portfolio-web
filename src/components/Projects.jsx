@@ -59,14 +59,27 @@ export default function Projects() {
               </div>
 
               {/* Action */}
-              <div className="project-card-actions">
+              <div className="project-card-actions" style={{ display: 'flex', gap: '8px' }}>
                 <button 
-                  className="btn btn-secondary btn-sm full-width"
+                  className="btn btn-secondary btn-sm"
                   onClick={() => setSelectedProject(project)}
+                  style={{ flex: 1 }}
                 >
                   <Layers size={15} />
-                  <span>Ver Arquitectura Completa</span>
+                  <span>Arquitectura</span>
                 </button>
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                  >
+                    <ExternalLink size={14} />
+                    <span>GitHub</span>
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -132,9 +145,21 @@ export default function Projects() {
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="modal-footer" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                {selectedProject.githubUrl && (
+                  <a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
+                  >
+                    <ExternalLink size={16} />
+                    <span>Ver Código en GitHub</span>
+                  </a>
+                )}
                 <button 
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-secondary btn-sm"
                   onClick={() => setSelectedProject(null)}
                 >
                   Cerrar Detalle

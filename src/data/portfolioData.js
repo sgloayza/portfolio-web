@@ -109,7 +109,8 @@ export const featuredProjects = [
       "Aprovisionamiento post-instalación de agentes de monitoreo Zabbix y métricas para Grafana/Prometheus."
     ],
     tags: ["Ansible", "Python", "YouTrack API", "Bitwarden", "Zabbix", "Linux"],
-    metrics: "115+ gateways aprovisionados sin intervención manual"
+    metrics: "115+ gateways aprovisionados sin intervención manual",
+    githubUrl: "https://github.com/sgloayza/edge-infrastructure-orchestrator"
   },
   {
     id: "resilient-cdc-pipeline",
