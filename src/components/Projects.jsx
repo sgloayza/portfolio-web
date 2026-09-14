@@ -64,22 +64,20 @@ export default function Projects() {
                 </div>
 
                 {/* Action */}
-                <div className="project-card-actions" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className="project-card-actions">
                   {hasSimulator && (
                     <button
-                      className="btn btn-primary btn-sm simulator-trigger-btn"
+                      className="btn btn-primary btn-sm simulator-trigger-btn full-width"
                       onClick={() => { window.location.hash = '#/simulator'; }}
-                      style={{ width: '100%', justifyContent: 'center' }}
                     >
                       <Play size={14} />
                       <span>{t.projects.btnSimulator || '🎮 Simulador en Vivo'}</span>
                     </button>
                   )}
-                  <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
+                  <div className="project-action-buttons-row">
                     <button 
-                      className="btn btn-secondary btn-sm"
+                      className="btn btn-secondary btn-sm btn-arch"
                       onClick={() => setSelectedProjectId(project.id)}
-                      style={{ flex: 1 }}
                     >
                       <Layers size={15} />
                       <span>{t.projects.btnArchitecture}</span>
@@ -89,8 +87,7 @@ export default function Projects() {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-secondary btn-sm"
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                        className="btn btn-secondary btn-sm btn-gh"
                       >
                         <ExternalLink size={14} />
                         <span>{t.projects.btnGithub}</span>
