@@ -249,21 +249,23 @@ export const translations = {
         },
         {
           id: 'iot-telemetry-monitoring',
-          title: 'Plataforma IoT de Telemetría y Gestión de Gateways',
+          title: 'Agente IoT Embebido & Estabilizador de Hardware (Orange Pi / Linux)',
           category: 'Sistemas Embebidos & Redes IoT',
           badge: 'Hardware & Edge',
-          cardDescription: 'Sistema centralizado de comunicación y telemetría para hardware embebido distribuido (Orange Pi / Linux Edge), combinando mensajería ligera MQTT, túneles remotos seguros con SSH (Paramiko) y estabilización preventiva de memoria.',
-          description: 'Sistema centralizado de comunicación y telemetría para hardware embebido distribuido (Orange Pi / Linux Edge), combinando mensajería ligera MQTT, túneles remotos seguros con SSH (Paramiko) y estabilización preventiva de memoria.',
-          problem: 'Los gateways en campo (Orange Pi con 1GB-2GB de RAM) en ubicaciones remotas con conectividad inestable sufrían bloqueos del sistema operativo por saturación de sockets y acumulación de microfugas de memoria en procesos huérfanos, exigiendo traslados para reinicios manuales en sitio.',
-          solution: 'Se diseñó un cliente de telemetría resiliente con reconexión exponencial sobre protocolo MQTT (Eclipse Mosquitto) y gestión remota parametrizada mediante SSH seguro con Paramiko. Se complementa con rutinas de depuración de procesos zombies que estabilizan la memoria RAM en nodos desatendidos.',
+          cardDescription: 'Agente de telemetría de ultra-bajo consumo (< 35MB RAM) para gateways de campo (Orange Pi / ARM64), con resiliencia Store & Forward en SQLite WAL, mitigación OOM con anti-flapping y gestión remota con Paramiko SSH.',
+          description: 'Agente de telemetría de ultra-bajo consumo (< 35MB RAM) para gateways de campo (Orange Pi / ARM64), con resiliencia Store & Forward en SQLite WAL, mitigación OOM con anti-flapping y gestión remota con Paramiko SSH.',
+          problem: 'En zonas industriales y rurales con cobertura celular intermitente, los gateways de campo (Orange Pi con 1GB-2GB de RAM) sufrían pérdida irreversible de mediciones ante caídas de red y se colgaban por saturación de sesiones zombies en el broker MQTT, exigiendo traslados físicos para reinicios forzados en sitio.',
+          solution: 'Se implementó un agente asíncrono en Python con patrón Store & Forward sobre SQLite transaccional en modo WAL para buffering sin pérdida de datos. Incluye detección de vacíos de comunicación (beacon timeouts), watchdog preventivo de memoria RAM con anti-flapping (cooldown de 1h) para expulsar clientes fantasmas sin reiniciar el equipo, aprovisionamiento automatizado con Ansible y orquestación remota por SSH con Paramiko.',
           highlights: [
-            'Comunicación ligera bidireccional sobre protocolo MQTT optimizada para anchos de banda reducidos e intermitentes.',
-            'Automatización y administración remota segura de flotas de hardware desatendido mediante SSH y Paramiko.',
-            'Diagnóstico exhaustivo y resolución de fugas de memoria RAM en gateways Orange Pi (Linux embebido).',
-            'Algoritmos de reconexión adaptativa y buffering local en memoria ante pérdidas de red.'
+            'Motor Store & Forward en SQLite modo WAL que garantiza 0% pérdida de datos ante cortes prolongados de conectividad.',
+            'Detección inteligente de vacíos de comunicación (data gaps) y filtrado de fallas de ceros en sensores de campo (SM-17).',
+            'Watchdog de estabilización de RAM y desalojo selectivo de sesiones zombies en Mosquitto con protección anti-flapping de 1h (MDG-66).',
+            'Administración remota multi-nodo y diagnóstico paralelo de flotas desatendidas mediante SSH y Paramiko.',
+            'Aprovisionamiento desatendido con rol de Ansible y gobernanza con unidades Systemd con cuotas estrictas (MemoryMax=64M).'
           ],
-          tags: ['MQTT / Mosquitto', 'Orange Pi', 'Python', 'Paramiko SSH', 'Linux Edge', 'Sistemas Embebidos'],
-          metrics: '100% de reducción en bloqueos físicos y caídas por agotamiento de memoria RAM'
+          tags: ['Orange Pi', 'ARM64 Linux', 'MQTT / Mosquitto', 'SQLite WAL', 'Paramiko SSH', 'Ansible', 'Systemd'],
+          metrics: '100% retención de datos ante pérdidas de red y 0 caídas por agotamiento de memoria RAM en campo',
+          githubUrl: 'https://github.com/sgloayza/edge-hardware-telemetry-agent'
         }
       ]
     },
@@ -589,21 +591,23 @@ export const translations = {
         },
         {
           id: 'iot-telemetry-monitoring',
-          title: 'IoT Gateway Telemetry & Fleet Management Platform',
+          title: 'Edge Hardware Telemetry Agent & Memory Stabilizer (Orange Pi / Linux)',
           category: 'Embedded Systems & IoT Networking',
           badge: 'Hardware & Edge',
-          cardDescription: 'Centralized telemetry, command-and-control, and diagnostic platform for distributed embedded hardware (Orange Pi / Linux Edge), combining lightweight MQTT messaging, secure SSH automation (Paramiko), and preventive RAM stabilization.',
-          description: 'Centralized telemetry, command-and-control, and diagnostic platform for distributed embedded hardware (Orange Pi / Linux Edge), combining lightweight MQTT messaging, secure SSH automation (Paramiko), and preventive RAM stabilization.',
-          problem: 'Field gateways (Orange Pi SBCs with 1GB–2GB RAM) in remote environments with unstable connectivity experienced system freezes due to socket exhaustion and unmanaged memory leaks in legacy processes, forcing costly on-site manual power cycles.',
-          solution: 'Designed a resilient telemetry client with exponential reconnection over MQTT (Eclipse Mosquitto) and parameterized remote fleet execution via secure SSH using Paramiko. Complemented with background watchdog daemons that terminate orphan zombie processes and maintain RAM stability.',
+          cardDescription: 'Low-memory telemetry daemon (< 35MB RAM) for industrial field gateways (Orange Pi / ARM64), featuring Store & Forward SQLite WAL buffer, OOM RAM stabilization with anti-flapping, and Paramiko SSH fleet automation.',
+          description: 'Low-memory telemetry daemon (< 35MB RAM) for industrial field gateways (Orange Pi / ARM64), featuring Store & Forward SQLite WAL buffer, OOM RAM stabilization with anti-flapping, and Paramiko SSH fleet automation.',
+          problem: 'In remote industrial locations with unstable wireless connectivity, field gateways (Orange Pi SBCs with 1GB–2GB RAM) suffered permanent telemetry loss during cellular blackouts and froze due to socket exhaustion and unpurged ghost sessions in Mosquitto, forcing costly manual on-site power cycles.',
+          solution: 'Engineered a resilient embedded daemon in Python implementing Store & Forward over transactional SQLite in WAL mode. Added algorithmic beacon timeout/gap classification, a proactive RAM watchdog with anti-flapping (1h cooldown) for clean ghost session eviction without physical reboot, automated Ansible provisioning, and remote SSH fleet orchestration with Paramiko.',
           highlights: [
-            'Lightweight bidirectional communication over MQTT protocol optimized for low and unstable bandwidth.',
-            'Remote fleet management with authenticated, parameterized SSH automation via Paramiko.',
-            'Root-cause diagnostic and permanent resolution of RAM memory leaks across Orange Pi edge nodes.',
-            'Adaptive reconnection algorithms and local buffer queue handling network disconnects.'
+            'Store & Forward engine on SQLite WAL mode delivering 100% data retention during extended network outages.',
+            'Algorithmic communication gap detection and sensor zero-fault discrimination under field dropouts (SM-17).',
+            'RAM watchdog with targeted Mosquitto ghost session eviction and 1-hour anti-flapping protection (MDG-66).',
+            'Multi-target remote fleet management, health diagnostics, and remediation via authenticated Paramiko SSH.',
+            'Automated unattended provisioning with Ansible role and systemd units enforcing strict quotas (MemoryMax=64M).'
           ],
-          tags: ['MQTT / Mosquitto', 'Orange Pi', 'Python', 'Paramiko SSH', 'Linux Edge', 'Embedded Systems'],
-          metrics: '100% reduction in unexpected hardware reboots due to RAM exhaustion'
+          tags: ['Orange Pi', 'ARM64 Linux', 'MQTT / Mosquitto', 'SQLite WAL', 'Paramiko SSH', 'Ansible', 'Systemd'],
+          metrics: '100% data retention across connectivity drops and 0 hardware reboots due to RAM exhaustion',
+          githubUrl: 'https://github.com/sgloayza/edge-hardware-telemetry-agent'
         }
       ]
     },
