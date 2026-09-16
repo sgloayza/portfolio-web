@@ -228,22 +228,24 @@ export const translations = {
           githubUrl: 'https://github.com/sgloayza/edge-infrastructure-orchestrator'
         },
         {
-          id: 'resilient-cdc-pipeline',
-          title: 'Plataforma Backend & Streaming en Tiempo Real (FastAPI & Kafka)',
-          category: 'Desarrollo Backend & Streaming de Eventos',
-          badge: 'Alta Concurrencia',
-          cardDescription: 'Microservicio asíncrono en FastAPI y pipeline reactivo de eventos con Apache Kafka, conectando productores y consumidores en Python con MongoDB para persistencia transaccional y analítica.',
-          description: 'Microservicio asíncrono en FastAPI y pipeline reactivo de eventos con Apache Kafka, conectando productores y consumidores en Python con MongoDB para persistencia transaccional y analítica.',
-          problem: 'Las arquitecturas síncronas tradicionales colapsaban ante ráfagas masivas de peticiones de telemetría y bloqueaban la base de datos operativa al ejecutar consultas analíticas y auditorías concurrentes. Se requería un backend asíncrono capaz de procesar eventos en tiempo real con latencia sub-segundo y garantía de entrega sin pérdida de datos.',
-          solution: 'Se implementó un backend asíncrono desacoplado con FastAPI y esquemas estrictos con Pydantic. Las peticiones se ingieren en topics particionados de Apache Kafka, donde workers en Python procesan los flujos de eventos asíncronamente y los persisten en MongoDB con tolerancia a fallos, reintentos exponenciales y consistencia eventual.',
+          id: 'iot-telemetry-backend',
+          title: 'Plataforma Backend de Telemetría IoT & Streaming (FastAPI & WebSockets)',
+          category: 'Desarrollo Backend Asíncrono & Streaming',
+          badge: 'Alta Concurrencia & Tiempo Real',
+          cardDescription: 'Backend asíncrono empresarial en FastAPI con ingesta streaming (WebSockets / MQTT), cálculo analítico de series temporales de doble eje Y (nivel cm vs galones) y reportes ejecutivos en Excel.',
+          description: 'Backend asíncrono empresarial en FastAPI con ingesta streaming (WebSockets / MQTT), cálculo analítico de series temporales de doble eje Y (nivel cm vs galones) y reportes ejecutivos en Excel.',
+          problem: 'En infraestructuras industriales de estaciones y tanques, los sensores reportan lecturas físicas (centímetros de combustible) que requieren conversión analítica en tiempo real a volumen (galones), cálculo de balances de consumo diario y sincronización periódica sin bloquear la base de datos ni degradar la experiencia de usuario.',
+          solution: 'Se diseñó una arquitectura limpia desacoplada con FastAPI y SQLAlchemy 2.0 Async, integrando un motor de cálculo de doble eje Y (/api/sonda), streaming reactivo mediante WebSockets y broker MQTT con aiomqtt, migraciones versionadas con Alembic, control de acceso basado en roles (RBAC con JWT) y generador de reportes multi-hoja en Excel con OpenPyXL.',
           highlights: [
-            'Desarrollo de API REST asíncrona con FastAPI, validaciones tipadas en Pydantic y documentación OpenAPI/Swagger automática.',
-            'Pipeline de mensajería reactiva con Apache Kafka (productores y consumidores asíncronos en Python con aiokafka).',
-            'Persistencia resiliente en MongoDB con agregaciones optimizadas y políticas de retención histórica sin pérdida de registros.',
-            'Manejo robusto de excepciones con colas de reintentos (dead-letter queues) y monitoreo de salud del pipeline.'
+            'API REST asíncrona y WebSocket Hub con FastAPI, Pydantic v2 y documentación interactiva OpenAPI/Swagger.',
+            'Motor analítico de series de tiempo de doble eje Y (centímetros vs galones) con agregación dinámica por ventanas temporales.',
+            'Ingesta y streaming en tiempo real vía WebSockets y MQTT con simulación autónoma estocástica de respaldo.',
+            'Generación binaria de reportes multi-pestaña en Excel (.xlsx) con KPIs, curvas de nivel y balances diarios de inventario.',
+            'Seguridad empresarial RBAC (Admin, Operador, Auditor) con tokens JWT y persistencia asíncrona con SQLAlchemy 2.0 y Alembic.'
           ],
-          tags: ['Python', 'FastAPI', 'Apache Kafka', 'Pydantic', 'MongoDB', 'Event-Driven EDA'],
-          metrics: '10,000+ eventos/seg procesados con latencia sub-segundo y 0 bloqueos en la base de datos'
+          tags: ['FastAPI', 'Python 3.11+', 'WebSockets', 'MQTT', 'SQLAlchemy Async', 'Alembic', 'OpenPyXL', 'Docker'],
+          metrics: 'Latencia sub-segundo en streaming de eventos y procesamiento continuo sin bloqueos I/O',
+          githubUrl: 'https://github.com/sgloayza/iot-telemetry-streaming-backend'
         },
         {
           id: 'iot-telemetry-monitoring',
@@ -566,22 +568,24 @@ export const translations = {
           githubUrl: 'https://github.com/sgloayza/edge-infrastructure-orchestrator'
         },
         {
-          id: 'resilient-cdc-pipeline',
-          title: 'Event-Driven Streaming & Backend Platform (FastAPI & Kafka)',
-          category: 'Backend Development & Event Streaming',
-          badge: 'High Concurrency',
-          cardDescription: 'Asynchronous microservices architecture built with FastAPI and reactive event streaming via Apache Kafka, connecting Python producers and consumers with MongoDB for transactional and analytical persistence.',
-          description: 'Asynchronous microservices architecture built with FastAPI and reactive event streaming via Apache Kafka, connecting Python producers and consumers with MongoDB for transactional and analytical persistence.',
-          problem: 'Traditional synchronous architectures suffered bottlenecks under heavy ingestion bursts and degraded the operational database when processing concurrent analytical queries. An asynchronous event-driven backend was required to ingest and stream events with sub-second latency and zero data loss.',
-          solution: 'Engineered a modular asynchronous backend with FastAPI and strict Pydantic validation schemas. Request ingestion is decoupled using Apache Kafka topics, where Python background consumers validate, transform, and persist streams into MongoDB with exponential retry strategies and dead-letter queues.',
+          id: 'iot-telemetry-backend',
+          title: 'IoT Telemetry & Industrial Event Streaming Platform (FastAPI & WebSockets)',
+          category: 'Asynchronous Backend & Real-Time Streaming',
+          badge: 'High Concurrency & Real-Time',
+          cardDescription: 'Production-grade asynchronous backend in FastAPI with dual-protocol streaming (WebSockets & MQTT), time-series dual-axis analytical engine (cm vs gallons), and dynamic multi-sheet Excel reporting.',
+          description: 'Production-grade asynchronous backend in FastAPI with dual-protocol streaming (WebSockets & MQTT), time-series dual-axis analytical engine (cm vs gallons), and dynamic multi-sheet Excel reporting.',
+          problem: 'In industrial fuel station environments, physical probe sensors measure fuel levels in centimeters, requiring real-time conversion to volume (gallons), computation of daily consumption vs recharge balances, and periodic catalog reconciliations without locking the transactional database.',
+          solution: 'Engineered a clean asynchronous architecture using FastAPI and SQLAlchemy 2.0 Async, featuring a dual Y-axis analytical engine (/api/sonda), decoupled WebSockets & MQTT event streaming with aiomqtt, versioned Alembic migrations, fine-grained RBAC with JWT authentication, and automated multi-tab Excel (.xlsx) generation via OpenPyXL.',
           highlights: [
-            'High-throughput asynchronous REST API built with FastAPI, strict Pydantic validation, and interactive OpenAPI/Swagger docs.',
-            'Reactive messaging pipeline powered by Apache Kafka using asynchronous Python producers/consumers (aiokafka).',
-            'Resilient MongoDB integration featuring optimized aggregation pipelines and historic retention policies.',
-            'Fault-tolerant error handling with dead-letter queues (DLQ) and comprehensive pipeline health checks.'
+            'High-throughput asynchronous REST API and WebSocket Hub with FastAPI, Pydantic v2, and live OpenAPI/Swagger documentation.',
+            'Dual Y-axis time-series engine correlating centimeters and gallons with dynamic aggregation windows.',
+            'Real-time event streaming over WebSockets and MQTT with autonomous stochastic sensor simulation fallback.',
+            'Automated binary multi-sheet Excel (.xlsx) report generator with operational KPIs, time-series curves, and audit trails.',
+            'Enterprise RBAC security (Admin, Operator, Viewer) with JWT tokens and async persistence via SQLAlchemy 2.0 & Alembic.'
           ],
-          tags: ['Python', 'FastAPI', 'Apache Kafka', 'Pydantic', 'MongoDB', 'Event-Driven EDA'],
-          metrics: '10,000+ events/sec processed with sub-second latency and 0 DB blocking'
+          tags: ['FastAPI', 'Python 3.11+', 'WebSockets', 'MQTT', 'SQLAlchemy Async', 'Alembic', 'OpenPyXL', 'Docker'],
+          metrics: 'Sub-second real-time streaming latency and non-blocking I/O processing across continuous telemetry streams',
+          githubUrl: 'https://github.com/sgloayza/iot-telemetry-streaming-backend'
         },
         {
           id: 'iot-telemetry-monitoring',

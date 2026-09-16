@@ -116,22 +116,24 @@ export const featuredProjects = [
     githubUrl: "https://github.com/sgloayza/edge-infrastructure-orchestrator"
   },
   {
-    id: "resilient-cdc-pipeline",
-    title: "Pipeline de Datos Resiliente en Tiempo Real (CDC)",
-    category: "Data Streaming & Event-Driven",
-    badge: "Alta Disponibilidad",
-    cardDescription: "Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.",
-    description: "Streaming continuo de eventos mediante Change Data Capture (CDC) sobre Apache Kafka, replicando telemetría desde MongoDB hacia clústeres de auditoría con latencia sub-segundo.",
-    problem: "Las bases de datos operativas de alta concurrencia sufrían degradación cuando se realizaban consultas analíticas pesadas. Críticamente, cualquier borrado accidental de registros operativos en caliente provocaba la pérdida irreversible de telemetría histórica necesaria para auditorías legales y cumplimiento normativo.",
-    solution: "Se implementó una canalización desacoplada con Debezium y Apache Kafka leyendo directamente los Change Streams del oplog de MongoDB sin penalizar la base operativa. El conector hacia la base histórica fue configurado específicamente para persistir inserciones y actualizaciones descartando eliminaciones destructivas, garantizando un repositorio histórico inmutable con políticas de retención TTL de 365 días.",
+    id: "iot-telemetry-backend",
+    title: "Plataforma Backend de Telemetría IoT & Streaming (FastAPI & WebSockets)",
+    category: "Desarrollo Backend Asíncrono & Streaming",
+    badge: "Alta Concurrencia & Tiempo Real",
+    cardDescription: "Backend asíncrono empresarial en FastAPI con ingesta streaming (WebSockets / MQTT), cálculo analítico de series temporales de doble eje Y (nivel cm vs galones) y reportes ejecutivos en Excel.",
+    description: "Backend asíncrono empresarial en FastAPI con ingesta streaming (WebSockets / MQTT), cálculo analítico de series temporales de doble eje Y (nivel cm vs galones) y reportes ejecutivos en Excel.",
+    problem: "En infraestructuras industriales de estaciones y tanques, los sensores reportan lecturas físicas (centímetros de combustible) que requieren conversión analítica en tiempo real a volumen (galones), cálculo de balances de consumo diario y sincronización periódica sin bloquear la base de datos ni degradar la experiencia de usuario.",
+    solution: "Se diseñó una arquitectura limpia desacoplada con FastAPI y SQLAlchemy 2.0 Async, integrando un motor de cálculo de doble eje Y (/api/sonda), streaming reactivo mediante WebSockets y broker MQTT con aiomqtt, migraciones versionadas con Alembic, control de acceso basado en roles (RBAC con JWT) y generador de reportes multi-hoja en Excel con OpenPyXL.",
     highlights: [
-      "Implementación de conectores Debezium sobre Apache Kafka y clúster Kafka Connect distribuido.",
-      "Consumidor de alta concurrencia programado en Python para deserialización y validación de tipos BSON complejos.",
-      "Mecanismo tolerante a fallos con lógica de reintentos exponenciales y consistencia eventual garantizada.",
-      "Configuración de réplicas de MongoDB en producción para asegurar integridad en situaciones de contingencia."
+      "API REST asíncrona y WebSocket Hub con FastAPI, Pydantic v2 y documentación interactiva OpenAPI/Swagger.",
+      "Motor analítico de series de tiempo de doble eje Y (centímetros vs galones) con agregación dinámica por ventanas temporales.",
+      "Ingesta y streaming en tiempo real vía WebSockets y MQTT con simulación autónoma estocástica de respaldo.",
+      "Generación binaria de reportes multi-pestaña en Excel (.xlsx) con KPIs, curvas de nivel y balances diarios de inventario.",
+      "Seguridad empresarial RBAC (Admin, Operador, Auditor) con tokens JWT y persistencia asíncrona con SQLAlchemy 2.0 y Alembic."
     ],
-    tags: ["Kafka", "Debezium CDC", "MongoDB Replicas", "Zookeeper", "Python", "FastAPI"],
-    metrics: "Latencia sub-segundo en sincronización de eventos y 100% retención para auditorías"
+    tags: ["FastAPI", "Python 3.11+", "WebSockets", "MQTT", "SQLAlchemy Async", "Alembic", "OpenPyXL", "Docker"],
+    metrics: "Latencia sub-segundo en streaming de eventos y procesamiento continuo sin bloqueos I/O",
+    githubUrl: "https://github.com/sgloayza/iot-telemetry-streaming-backend"
   },
   {
     id: "iot-telemetry-monitoring",
